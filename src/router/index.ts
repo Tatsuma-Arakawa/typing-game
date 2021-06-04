@@ -11,9 +11,9 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   {
-    path: '/difficulty',
-    name: 'Difficulty',
-    component: () => import('../views/Difficulty.vue')
+    path: '/type',
+    name: 'Type',
+    component: () => import('../views/Type.vue')
   },
   {
     path: '/gamedisplay',

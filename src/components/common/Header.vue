@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar style="background: #add8e6;">
-      <h1 style="color: #6495ed">タイピングゲーム</h1>
+      <h1>専門用語タイピング</h1>
     </v-toolbar>
   </div>
 </template>

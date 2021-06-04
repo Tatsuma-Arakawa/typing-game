@@ -20,4 +20,8 @@ import Header from './components/common/Header.vue';
 export default class App extends Vue{}
 </script>
 <style scoped>
+#app {
+  font-weight: 500;
+  background-color: #c0c0c0;
+}
 </style>

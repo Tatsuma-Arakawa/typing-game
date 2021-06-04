@@ -1,14 +1,14 @@
 <template>
-  <Beginner />
+  <ItTyping />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Beginner from '../components/gameDisplay/Beginner.vue';
+import ItTyping from '../components/gameDisplay/ItTyping.vue';
 
 @Component({
   components: {
-    Beginner
+    ItTyping
   },
 })
 
