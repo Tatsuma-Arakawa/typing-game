@@ -1,18 +1,18 @@
 <template>
-  <HomePage />
+  <Beginner />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HomePage from '../components/home/HomePage.vue';
+import Beginner from '../components/gameDisplay/Beginner.vue';
 
 @Component({
   components: {
-    HomePage
+    Beginner
   },
 })
 
-export default class Home extends Vue{}
+export default class GameDisplay extends Vue{}
 </script>
 <style scoped>
 </style>
