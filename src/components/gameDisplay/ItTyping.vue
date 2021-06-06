@@ -4,66 +4,142 @@
       <h1>IT用語タイピング</h1>
       <div class="marker"></div>
     </div>
-    <button v-if="startFlag!=true" class="startButton mb-20" @click="gameStart">スタート</button>
-    <div class="question mb-20">{{ currentQuestion }}</div>
-    <div v-if="currentQuestionCounts == questionCounts" class="clear">クリア！！</div>
-    <div class="typeFormWrapper mb-20">
-      <input id="typeForm" v-model="typeBox" type="text" class="typeForm">
+
+    <!-- スタート前 -->
+    <div v-if = "startFlag!=true" class="mt-10">
+      <v-btn class="startButton mb-20" @click="gameStart">
+        <p>クリックでスタート</p>
+      </v-btn>
     </div>
-    <div>
-      <div>{{ currentQuestionCounts }}/{{ questionCounts }}</div>
+
+  <!-- ゲーム中に表示する部分 -->
+    <div v-if="startFlag">
+
+      <!-- 正解不正解判定 -->
+      <p v-if="isTypingCorrenct">OK</p>
+      <p v-else>NO</p>
+
+      <!-- 出題問題 -->
+      <div class="question mb-20">{{ currentWord }}</div>
+
+      <!-- 回答欄 -->
+      <div class="input-typing-wrapper mb-20">
+        <input id="input-typing" type="text" class="form-control" v-model="typingText">
+      </div>
+
+      <!--問題数 -->
+      <div>
+        <div>第{{ currentWordNumber }}問</div>
+      </div>
+
+      <!-- タイプ数 -->
+      <div>
+        <div>タイプ数：{{ typeCount }}回</div>
+      </div>
+
+      <!-- 経過時間 -->
+      <div>
+        <div>経過時間：{{ timer }}秒</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({})
 
 export default class ItTyping extends Vue {
+  // ゲームスタート
   startFlag = false;
-  currentQuestion = "";
-  typeBox = "";
-  currentQuestionCounts = 0;
-  questionCounts = 0;
+
+  // 入力欄
+  typingText = '';
+
+  // ミスタイプ数
+  typeMissCount = 0;
+
+  // タイプ数
+  typeCount = 0;
+
+  // 問題解答用
+  questionList = []
+  questionIndex = 0;
+  charIndex = 0;
+
+  // 経過時間
+  timer = -1; // 最初0秒表示させるため-1に設定
 
   /** 問題 */
-  questions = [
-    'apple',
-    'banana',
-    'chocolate',
-    'donut',
-    'espresso'
+  words = [
+    'egg',
+    'bag',
+    'rose',
+    'chair',
+    'bat',
+    'fish',
+    'notebook',
+    'pencil',
+    'dog',
+    'desk'
   ];
 
-  /** ゲームスタートと同時にカーソルを回答欄に配置 */
+  /** 回答後の問題 */
+  solvedWords = [];
+
+  /** ゲームスタート */
   private gameStart() {
     this.startFlag = true;
+    this.solvedWords = [];
     this.$nextTick(() => {
-      document.getElementById('typeForm')?.focus()
+      document.getElementById('input-typing')?.focus()
     })
+    this.countUp()
+    // window.addEventListener('keypress', this.keyCheck)
   }
 
-  /** 回答中の問題 */
-  private mounted() {
-    this.currentQuestion = this.questions[0]
-    this.questionCounts = this.questions.length
+  /** ランダムで問題を出題する */
+  private get currentWord() {
+    const unsolvedWords = this.words.filter((word) => {
+      return (!this.solvedWords.includes(word as never)) // 解答されてないものだけ
+    })
+    const randomIndex = Math.floor(Math.random()*unsolvedWords.length)
+    return unsolvedWords[randomIndex]
   }
 
-    /** 正解をすると問題が切り替わる */
-  @Watch('typeBox')
-  private onTextChanged(e: string) {
-    if(e == this.currentQuestion) {
-      this.questions.splice(0, 1)
-      this.currentQuestion = this.questions[0]
-      this.typeBox = ""
-      this.currentQuestionCounts = this.currentQuestionCounts + 1
+  /** 回答中の問題番号 */
+  private get currentWordNumber() {
+    return this.solvedWords.length + 1
+  }
+
+  /** キーボード入力と文字が一致しているか */
+  private get isTypingCorrenct() {
+    if(this.typingText == this.currentWord) {
+      this.solvedWords.push(this.currentWord as never)
+      this.typingText = ''
+      if(this.words.length == this.solvedWords.length) {
+        this.solvedWords = []
+        this.startFlag = false
+        alert('全問正解')
+      }
+      return true
     }
+    const typingTextLength = this.typingText.length
+    return (this.typingText === this.currentWord.slice(0, typingTextLength))
+  }
+
+  /** タイマー */
+  countUp(): void {
+    if (!this.startFlag) {
+      return
+    }
+    this.timer += 1
+    setTimeout(this.countUp, 1000)
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 *{
   font-family: inherit;
   font-size: inherit;
@@ -99,13 +175,14 @@ body {
 }
 
 .startButton {
-  background-color: gray;
-  color: white;
-  padding: 4px 60px;
   border: none;
   outline: none;
   border-radius: 8px;
   cursor: pointer;
+  p {
+    color: black;
+    margin: auto 0;
+  }
 }
 
 .startButton:hover {
@@ -120,13 +197,13 @@ body {
   color: aqua;
 }
 
-.typeForm {
+.input-typing {
   outline: none;
   border: none;
   text-align: center;
 }
 
-.typeFormWrapper {
+.input-typing-wrapper {
   border-bottom: 1px solid gray;
 }
 

@@ -4,17 +4,17 @@
     <v-row>
       <v-col cols="4" class="mt-8">
         <v-btn href="/gamedisplay">
-          IT用語
+          IT用語モード
         </v-btn>
       </v-col>
       <v-col cols="4" class="mt-8"> 
         <v-btn>
-          筋肉
+          筋肉モード
         </v-btn>
       </v-col>
       <v-col cols="4" class="mt-8">
         <v-btn>
-          若者言葉
+          若者言葉モード
         </v-btn>
       </v-col>
     </v-row>
