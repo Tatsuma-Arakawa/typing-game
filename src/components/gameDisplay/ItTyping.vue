@@ -20,20 +20,22 @@
   <!-- ゲーム中に表示する部分 -->
     <div v-if="startFlag">
 
-      <!-- 正解不正解判定 -->
-      <p v-if="isTypingCorrenct">OK</p>
-      <div v-else>
-        <p>NO</p>
-        <div v-show="music()"></div>
-      </div>
-
-      <!-- 出題問題 -->
-      <div class="mb-20">{{ currentWord.ja }}</div>
-      <div class="question mb-20"><span id="typed"></span><span id="untyped">{{ currentWord.en }}</span></div>
+      <!-- 日本語出題問題 -->
+      <div>{{ currentWord.ja }}</div>
 
       <!-- 回答欄 -->
-      <div class="mb-20 input-area">
-        <input id="input-typing" type="text" v-model="typingText">
+      <div>
+        <p>
+          <span class="transparent">{{ clearAnswer }}</span>
+          <span class="underline">{{ nowAnswer }}</span>
+          <span>{{ notAnswer }}</span>
+        </p>
+      </div>
+
+      <!-- 正解不正解判定 -->
+      <p v-if="nextWord">OK</p>
+      <div v-else>
+        <p>NO</p>
       </div>
 
       <!--問題数 -->
@@ -41,10 +43,13 @@
         <div>第{{ currentWordNumber }}問</div>
       </div>
 
-      <!-- 経過時間 -->
+      <!-- 残り時間 -->
       <div>
         <div>制限時間：残り{{ timer }}秒</div>
       </div>
+
+      
+
     </div>
 
     <!-- ゲーム終了時に表示する部分 -->
@@ -64,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 @Component({})
 
@@ -101,6 +106,15 @@ export default class ItTyping extends Vue {
   /** ランク */
   private rank = 'E'
 
+  /** タイプ数 */
+  private typeCount = 0;
+
+  /** 一問に対する正解文字数 */
+  private charIndex = 0;
+
+  /** ミスタイプ数 */
+  private typeMissCount = 0;
+
   private rankD = 'D'
   private rankC = 'C'
   private rankB = 'B'
@@ -114,7 +128,7 @@ export default class ItTyping extends Vue {
   private scoreS = 10
 
   /** 問題 */
-  private testWords = [
+  private words = [
     {
       en: 'apple',
       ja: 'りんご'
@@ -124,19 +138,6 @@ export default class ItTyping extends Vue {
       ja: 'バナナ'
     }
   ]
-
-  private words: Array<string> = [
-    'apple',
-    'banana',
-    'master',
-    'develop',
-    'game',
-    'water',
-    'css',
-    'html',
-    'java',
-    'ruby',
-  ];
 
   /** 回答後の問題 */
   private solvedWords: Array<string> = [];
@@ -151,6 +152,7 @@ export default class ItTyping extends Vue {
     this.readFlag = true
     this.timer = this.TIME
     this.countRead()
+    window.addEventListener('keypress', this.keyCheck)
   }
 
   /** ゲームスタートカウントダウン */
@@ -165,9 +167,6 @@ export default class ItTyping extends Vue {
       this.readFlag = false
       this.readTime = this.READ
       this.startFlag = true
-      this.$nextTick(() => {
-        document.getElementById('input-typing')?.focus()
-      })
       this.countDown()
     }
   }
@@ -191,25 +190,56 @@ export default class ItTyping extends Vue {
   }
 
   /** ランダムで問題を出題する */
+  // TODO 一度出た問題でも繰り返し出る様に変更?
   private get currentWord() {
-    const unsolvedWords = this.testWords.filter((word) => {
-      return (!this.solvedWords.includes(word as never)) // 解答されてないものだけ
+    const unsolvedWords = this.words.filter((word) => {
+      return (!this.solvedWords.includes(word as never))
     })
     const randomIndex = Math.floor(Math.random()*unsolvedWords.length)
     return unsolvedWords[randomIndex]
   }
 
-  /** キーボード入力と文字が一致しているか */
-  private get isTypingCorrenct() {
-    if(this.typingText == this.currentWord.en) {
-      this.solvedWords.push(this.currentWord.en as never)
-      this.typingText = ''
+  /** 次の問題 */
+  private nextWord() {
+    this.solvedWords.push(this.currentWord.en as never)
+  } 
+
+  /** 入力した文字と問題が同じか確認 */
+  private keyCheck(e: any) {
+    this.typeCount += 1
+    if (this.currentWord.en[this.charIndex] === String.fromCharCode(e.keyCode)) {
+      this.charIndex += 1
+      this.typeSound()
+    } else {
+      this.typeMissCount += 1
+      this.missSound()
     }
-    const typingTextLength = this.typingText.length
-    return (this.typingText === this.currentWord.en.slice(0, typingTextLength))
   }
 
-  
+  /** 回答済み文字列 */
+  get clearAnswer(): string {
+    return this.currentWord.en.slice(0, this.charIndex)
+  }
+
+  /** 回答文字列 */
+  get nowAnswer(): string {
+    return this.currentWord.en.slice(this.charIndex, this.charIndex + 1)
+  }
+
+  /** 未回答文字列 */
+  get notAnswer(): string {
+    return this.currentWord.en.slice(this.charIndex + 1)
+  }
+
+  /** 正解した際 */
+  @Watch('clearAnswer')
+  onWatchChanged(val: string): void {
+    if (val === this.currentWord.en) {
+      this.answers += 1
+      this.charIndex = 0
+      this.nextWord()
+    }
+  }
 
   /** 回答中の問題番号 */
   private get currentWordNumber() {
@@ -223,20 +253,23 @@ export default class ItTyping extends Vue {
     }
     this.timer -= 1
     setTimeout(this.countDown, 1000)
-    if (this.words == this.solvedWords) {
-      clearInterval(this.timer)
-    }
     if (this.timer <= 0) {
       clearInterval
       this.result();
     }
   }
 
-  private music() {
+  /** ミス音 */
+  private missSound() {
     const audioElem = new Audio();
     audioElem.src = "Quiz-Wrong_Buzzer02-1.mp3";
     audioElem.play();
-    this.typingText.slice(0, -1)
+  }
+
+  private typeSound() {
+    const audioElem = new Audio();
+    audioElem.src = "決定、ボタン押下31.mp3";
+    audioElem.play();
   }
 }
 </script>
@@ -311,5 +344,13 @@ body {
     border: none;
     outline: none;
   }
+}
+
+
+.transparent {
+  opacity: 0.3;
+}
+.underline {
+  text-decoration: underline;
 }
 </style>
