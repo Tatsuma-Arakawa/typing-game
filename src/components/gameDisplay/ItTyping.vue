@@ -12,6 +12,11 @@
       </v-btn>
     </div>
 
+    <!-- カウントダウン -->
+    <div v-if="readFlag">
+      <p>{{ readTime }}</p>
+    </div>
+
   <!-- ゲーム中に表示する部分 -->
     <div v-if="startFlag">
 
@@ -23,8 +28,8 @@
       <div class="question mb-20">{{ currentWord }}</div>
 
       <!-- 回答欄 -->
-      <div class="mb-20">
-        <input id="input-typing" type="text" class="form-control" v-model="typingText">
+      <div class="mb-20 input-area">
+        <input id="input-typing" type="text" v-model="typingText">
       </div>
 
       <!--問題数 -->
@@ -40,9 +45,20 @@
 
     <!-- ゲーム終了時に表示する部分 -->
     <div v-if="resultFlag">
-      <div>回答数{{ answers }}問</div>
-      <div>ランク{{ rank }}</div>
-      <div>残り時間{{ timer }}</div>
+      <!-- 回答数 -->
+      <div>
+        <div>回答数{{ answers }}問</div>
+      </div>
+
+      <!-- ランク -->
+      <div>
+        <div>ランク{{ rank }}</div>
+      </div>
+
+      <!-- クリア後の残り時間 -->
+      <div>
+        <div>残り時間{{ timer }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -53,66 +69,98 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({})
 
 export default class ItTyping extends Vue {
-  // ゲームスタート
-  startFlag = false;
+  /** 課題 */
+  // 入力部分の色を変える（問題と入力欄を分けない）
+  // 日本語とローマ字同時表示
+  // エンターボタンを押すとゲームスタート
+  // ランキング機能
+  // 他モード追加
+  // 全体デザイン修正
+
+  /** ゲームスタート */
+  private startFlag = false;
+
+  /** カウントダウン */
+  private readFlag = false;
 
   /** 結果 */
-  resultFlag = false
+  private resultFlag = false
 
-  // 入力欄
-  typingText = '';
+  /** 入力欄 */
+  private typingText = '';
 
   /** 回答数 */
-  answers = 0;
+  private answers = 0;
 
   /** 制限時間 */
-  TIME = 31
-  timer = this.TIME;
+  private TIME = 31
+  private timer: number = this.TIME;
+
+  /** ゲームスタートカウントダウン */
+  private READ = 4;
+  private readTime: number = this.READ;
 
   /** ランク */
-  rank = 'E'
+  private rank = 'E'
 
-  rankD = 'D'
-  rankC = 'C'
-  rankB = 'B'
-  rankA = 'A'
-  rankS = 'S'
+  private rankD = 'D'
+  private rankC = 'C'
+  private rankB = 'B'
+  private rankA = 'A'
+  private rankS = 'S'
 
-  scoreD = 3
-  scoreC = 5
-  scoreB = 7
-  scoreA = 9
-  scoreS = 10
+  private scoreD = 3
+  private scoreC = 5
+  private scoreB = 7
+  private scoreA = 9
+  private scoreS = 10
 
   /** 問題 */
-  words = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
+  private words: Array<string> = [
+    'apple',
+    'banana',
+    'master',
+    'develop',
+    'game',
+    'water',
+    'css',
+    'html',
+    'java',
+    'ruby',
   ];
 
   /** 回答後の問題 */
-  solvedWords = [];
+  private solvedWords: Array<string> = [];
 
   /** ゲームスタート */
   private gameStart() {
-    this.startFlag = true;
     this.solvedWords = [];
     this.answers = 0
     this.typingText = ''
     this.resultFlag = false
     this.rank = 'E'
-    this.$nextTick(() => {
-      document.getElementById('input-typing')?.focus()
-    })
-    this.countDown()
+    this.readFlag = true
+    this.timer = this.TIME
+    this.countRead()
+  }
+
+  /** ゲームスタートカウントダウン */
+  countRead(): void {
+    if (!this.readFlag) {
+      return
+    }
+    this.readTime -= 1
+    setTimeout(this.countRead, 1000)
+    if (this.readTime <= 0) {
+      clearInterval
+      this.readFlag = false
+      this.readTime = this.READ
+      this.startFlag = true
+      this.$nextTick(() => {
+        document.getElementById('input-typing')?.focus()
+      })
+      this.countDown()
+    }
   }
 
   /** ゲーム終了後 */
@@ -142,11 +190,6 @@ export default class ItTyping extends Vue {
     return unsolvedWords[randomIndex]
   }
 
-  /** 回答中の問題番号 */
-  private get currentWordNumber() {
-    return this.solvedWords.length + 1
-  }
-
   /** キーボード入力と文字が一致しているか */
   private get isTypingCorrenct() {
     if(this.typingText == this.currentWord) {
@@ -160,6 +203,11 @@ export default class ItTyping extends Vue {
     }
     const typingTextLength = this.typingText.length
     return (this.typingText === this.currentWord.slice(0, typingTextLength))
+  }
+
+  /** 回答中の問題番号 */
+  private get currentWordNumber() {
+    return this.solvedWords.length + 1
   }
 
   /** タイマー */
@@ -233,16 +281,6 @@ body {
   color: gray;
 }
 
-.clear {
-  color: aqua;
-}
-
-.input-typing {
-  outline: none;
-  border: none;
-  text-align: center;
-}
-
 .gauge {
   height: 12px;
   transition: all .3s ease;
@@ -251,5 +289,14 @@ body {
 .gaugeWrapper {
   border: 1px solid;
   height: 12px;
+}
+
+.input-area {
+  border-bottom:solid 1px gray ;
+  input {
+    text-align: center;
+    border: none;
+    outline: none;
+  }
 }
 </style>
