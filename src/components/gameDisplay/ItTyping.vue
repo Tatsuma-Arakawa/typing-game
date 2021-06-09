@@ -22,10 +22,14 @@
 
       <!-- 正解不正解判定 -->
       <p v-if="isTypingCorrenct">OK</p>
-      <p v-else>NO</p>
+      <div v-else>
+        <p>NO</p>
+        <div v-show="music()"></div>
+      </div>
 
       <!-- 出題問題 -->
-      <div class="question mb-20">{{ currentWord }}</div>
+      <div class="mb-20">{{ currentWord.ja }}</div>
+      <div class="question mb-20"><span id="typed"></span><span id="untyped">{{ currentWord.en }}</span></div>
 
       <!-- 回答欄 -->
       <div class="mb-20 input-area">
@@ -55,10 +59,6 @@
         <div>ランク{{ rank }}</div>
       </div>
 
-      <!-- クリア後の残り時間 -->
-      <div>
-        <div>残り時間{{ timer }}</div>
-      </div>
     </div>
   </div>
 </template>
@@ -71,8 +71,6 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class ItTyping extends Vue {
   /** 課題 */
   // 入力部分の色を変える（問題と入力欄を分けない）
-  // 日本語とローマ字同時表示
-  // エンターボタンを押すとゲームスタート
   // ランキング機能
   // 他モード追加
   // 全体デザイン修正
@@ -116,6 +114,17 @@ export default class ItTyping extends Vue {
   private scoreS = 10
 
   /** 問題 */
+  private testWords = [
+    {
+      en: 'apple',
+      ja: 'りんご'
+    },
+    {
+      en: 'banana',
+      ja: 'バナナ'
+    }
+  ]
+
   private words: Array<string> = [
     'apple',
     'banana',
@@ -183,7 +192,7 @@ export default class ItTyping extends Vue {
 
   /** ランダムで問題を出題する */
   private get currentWord() {
-    const unsolvedWords = this.words.filter((word) => {
+    const unsolvedWords = this.testWords.filter((word) => {
       return (!this.solvedWords.includes(word as never)) // 解答されてないものだけ
     })
     const randomIndex = Math.floor(Math.random()*unsolvedWords.length)
@@ -192,18 +201,15 @@ export default class ItTyping extends Vue {
 
   /** キーボード入力と文字が一致しているか */
   private get isTypingCorrenct() {
-    if(this.typingText == this.currentWord) {
-      this.solvedWords.push(this.currentWord as never)
+    if(this.typingText == this.currentWord.en) {
+      this.solvedWords.push(this.currentWord.en as never)
       this.typingText = ''
-      if(this.words.length == this.solvedWords.length) {
-        this.result()
-        alert('クリア！！')
-      }
-      return true
     }
     const typingTextLength = this.typingText.length
-    return (this.typingText === this.currentWord.slice(0, typingTextLength))
+    return (this.typingText === this.currentWord.en.slice(0, typingTextLength))
   }
+
+  
 
   /** 回答中の問題番号 */
   private get currentWordNumber() {
@@ -224,6 +230,13 @@ export default class ItTyping extends Vue {
       clearInterval
       this.result();
     }
+  }
+
+  private music() {
+    const audioElem = new Audio();
+    audioElem.src = "Quiz-Wrong_Buzzer02-1.mp3";
+    audioElem.play();
+    this.typingText.slice(0, -1)
   }
 }
 </script>
