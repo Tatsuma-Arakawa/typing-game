@@ -19,9 +19,15 @@ import Header from './components/common/Header.vue';
 
 export default class App extends Vue{}
 </script>
-<style scoped>
+<style lang="scss">
 #app {
   font-weight: 500;
-  background-color: #c0c0c0;
+  background-color: #fffafa;
+  font-family: "Helvetica Neue",
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    Meiryo,
+    sans-serif;
 }
 </style>

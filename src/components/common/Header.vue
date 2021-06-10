@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <v-toolbar style="background: #add8e6;">
-      <h1>専門用語タイピング</h1>
+  <div class="toolbar">
+    <v-toolbar class="aaa" color="#f0f8ff" flat>
+      <v-toolbar-title class="title">
+        Typing Game
+      </v-toolbar-title>
     </v-toolbar>
   </div>
 </template>
@@ -12,5 +14,13 @@ import { Component, Vue } from 'vue-property-decorator';
 
 export default class Header extends Vue{}
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.toolbar {
+  border-bottom: solid 1px gray;
+}
+
+.title {
+  color: #202020;
+  font-weight: 600;
+}
 </style>

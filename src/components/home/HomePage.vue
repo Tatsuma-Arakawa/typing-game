@@ -3,26 +3,31 @@
     <v-row class="text-center">
       <v-col cols="12">
         <div class="mt-16">
-          <v-btn href="/type" color="#00bfff">
-            ゲームを始める
+          <v-btn
+            href="/type"
+            color="blue-grey"
+          >
+            <p class="button">Start the game</p>
           </v-btn>
         </div>
       </v-col>
       <v-col cols="6" class="mt-10">
         <div>
-          <h2>遊び方</h2>
-          <v-card class="home-card">
-            <p>
-              専門用語タイピングは,ローマ字入力用のタイピングゲームです。<br>
-              IT用語、医療用語、若者言葉、から選択出来ます。
+          <h2 class="mb-5">How to play</h2>
+          <v-card class="home-card" color="#f0f8ff">
+            <p class="font">
+              ・専門用語タイピングは,ローマ字入力用のタイピングゲームです。<br>
+              ・IT用語、医療用語、若者言葉、から選択出来ます。<br>
+              ・制限時間は一分です。<br>
+              ・ミスタイプで減点です。
             </p>
           </v-card>
         </div>
       </v-col>
       <v-col cols="6" class="mt-10">
-        <h2>ランキング</h2>
-          <v-card class="home-card">
-            <p>
+        <h2 class="mb-5">Ranking</h2>
+          <v-card class="home-card" color="#f0f8ff">
+            <p class="font">
               1位 サンプル 500pt<br>
               2位 サンプル 500pt<br>
               3位 サンプル 500pt<br>
@@ -53,5 +58,16 @@ export default class HomePage extends Vue{}
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.button {
+  color: #fffafa;
+  margin: auto 0;
+  font-weight: 600;
+}
+
+.font {
+  color: #202020;
+  text-align: left;
 }
 </style>

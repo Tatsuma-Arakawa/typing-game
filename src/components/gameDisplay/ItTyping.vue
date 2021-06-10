@@ -1,67 +1,86 @@
 <template>
   <div class="container">
-    <div class="title">
-      <h1>IT用語タイピング</h1>
-      <div class="marker"></div>
-    </div>
-
+  
     <!-- スタート前 -->
     <div v-if="startFlag!=true" class="mt-10">
-      <v-btn class="startButton mb-20" @click="gameStart">
-        <p>クリックでスタート</p>
+      <div class="title mt-5">
+        <h1>ITモード</h1>
+        <div class="marker"></div>
+      </div>
+      <v-btn
+        class="startButton mt-10"
+        @click="gameStart"
+        color="blue-grey"
+      >
+        <p>Click to start</p>
       </v-btn>
     </div>
 
     <!-- カウントダウン -->
     <div v-if="readFlag">
-      <p>{{ readTime }}</p>
+      <p class="count-down-number">{{ readTime }}</p>
     </div>
 
-  <!-- ゲーム中に表示する部分 -->
+    <!-- ゲーム中に表示する部分 -->
     <div v-if="startFlag">
 
+      <!--問題数 -->
+      <div class="mt-5">
+        <div>第{{ currentWordNumber }}問</div>
+      </div>
+
       <!-- 日本語出題問題 -->
-      <div>{{ currentWord.ja }}</div>
+      <div class="ja-word mt-10">
+        {{ currentWord.ja }}
+      </div>
 
       <!-- 回答欄 -->
       <div>
-        <p>
+        <p class="word">
           <span class="transparent">{{ clearAnswer }}</span>
           <span class="underline">{{ nowAnswer }}</span>
           <span>{{ notAnswer }}</span>
         </p>
       </div>
 
-      <!-- 正解不正解判定 -->
-      <p v-if="nextWord">OK</p>
-      <div v-else>
-        <p>NO</p>
-      </div>
-
-      <!--問題数 -->
-      <div>
-        <div>第{{ currentWordNumber }}問</div>
-      </div>
-
       <!-- 残り時間 -->
-      <div>
+      <div class="mt-10">
         <div>制限時間：残り{{ timer }}秒</div>
       </div>
 
+      <!-- スコア -->
+      <div class="mt-2">
+        <div>スコア:{{ score }}</div>
+      </div>
       
-
     </div>
 
     <!-- ゲーム終了時に表示する部分 -->
-    <div v-if="resultFlag">
-      <!-- 回答数 -->
-      <div>
-        <div>回答数{{ answers }}問</div>
-      </div>
+    <div v-if="resultFlag" class="mt-10">
 
       <!-- ランク -->
-      <div>
-        <div>ランク{{ rank }}</div>
+      <div class="font-weight-bold rank-font">
+        <div>ランク: {{ rank }}</div>
+      </div>
+
+      <!-- スコア -->
+      <div class="mt-10">
+        <div>スコア: {{ score }}</div>
+      </div>
+
+      <!-- 回答数 -->
+      <div class="mt-2">
+        <div>回答数: {{ answers }}問</div>
+      </div>
+
+      <!-- タイプ数 -->
+      <div class="mt-2">
+        <div>タイプ数: {{ typeCount }}問</div>
+      </div>
+
+      <!-- ミスタイプ数 -->
+      <div class="mt-2">
+        <div>ミスタイプ数: {{ typeMissCount }}問</div>
       </div>
 
     </div>
@@ -75,7 +94,6 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 
 export default class ItTyping extends Vue {
   /** 課題 */
-  // 入力部分の色を変える（問題と入力欄を分けない）
   // ランキング機能
   // 他モード追加
   // 全体デザイン修正
@@ -89,14 +107,11 @@ export default class ItTyping extends Vue {
   /** 結果 */
   private resultFlag = false
 
-  /** 入力欄 */
-  private typingText = '';
-
   /** 回答数 */
   private answers = 0;
 
   /** 制限時間 */
-  private TIME = 31
+  private TIME = 61
   private timer: number = this.TIME;
 
   /** ゲームスタートカウントダウン */
@@ -121,22 +136,154 @@ export default class ItTyping extends Vue {
   private rankA = 'A'
   private rankS = 'S'
 
-  private scoreD = 3
-  private scoreC = 5
-  private scoreB = 7
-  private scoreA = 9
-  private scoreS = 10
+  private scoreD = 80
+  private scoreC = 130
+  private scoreB = 180
+  private scoreA = 230
+  private scoreS = 280
 
   /** 問題 */
   private words = [
     {
-      en: 'apple',
-      ja: 'りんご'
+      en: 'injekusyonkougeki',
+      ja: 'インジェクション攻撃'
     },
     {
-      en: 'banana',
-      ja: 'バナナ'
-    }
+      en: 'obujekutosikou',
+      ja: 'オブジェクト指向'
+    },
+    {
+      en: 'seitekikatadukegengo',
+      ja: '静的型付け言語'
+    },
+    {
+      en: 'yu-za-inta-fe-su',
+      ja: 'ユーザーインターフェース'
+    },
+    {
+      en: 'kihonjouhougijutusyasiken',
+      ja: '基本情報技術者試験'
+    },
+    {
+      en: 'kurosusaitosukuriputhingu',
+      ja: 'クロスサイトスクリプティング'
+    },
+    {
+      en: 'kurosusaitorikuesutofo-jeri',
+      ja: 'クロスサイトリクエストフォージェリ'
+    },
+    {
+      en: 'sqlinjekusyon',
+      ja: 'SQLインジェクション'
+    },
+    {
+      en: 'apurike-syonsohuto',
+      ja: 'アプリケーションソフト'
+    },
+    {
+      en: 'o-punso-su',
+      ja: 'オープンソース'
+    },
+    {
+      en: 'sessyonhaijakku',
+      ja: 'セッションハイジャック'
+    },
+    {
+      en: 'arugorizumu',
+      ja: 'アルゴリズム'
+    },
+    {
+      en: 'puroguramingugengo',
+      ja: 'プログラミング言語'
+    },
+    {
+      en: 'ma-kuappugengo',
+      ja: 'マークアップ言語'
+    },
+    {
+      en: 'de-tabe-su',
+      ja: 'データベース'
+    },
+    {
+      en: 'burokkuche-n',
+      ja: 'ブロックチェーン'
+    },
+    {
+      en: 'javascript',
+      ja: 'JavaScript'
+    },
+    {
+      en: 'typescript',
+      ja: 'TypeScript'
+    },
+    {
+      en: 'sisutemuinthigure-ta-',
+      ja: 'システムインティグレーター'
+    },
+    {
+      en: 'indento',
+      ja: 'インデント'
+    },
+    {
+      en: 'faiafo-ru',
+      ja: 'ファイアフォール'
+    },
+    {
+      en: 'toranzakusyon',
+      ja: 'トランザクション'
+    },
+    {
+      en: 'ro-dobaransa',
+      ja: 'ロードバランサ'
+    },
+    {
+      en: 'hure-muwa-ku',
+      ja: 'フレームワーク'
+    },
+    {
+      en: 'inta-netto',
+      ja: 'インターネット'
+    },
+    {
+      en: 'inhura',
+      ja: 'インフラ'
+    },
+    {
+      en: 'i-sanetto',
+      ja: 'イーサネット'
+    },
+    {
+      en: 'o-ba-ro-do',
+      ja: 'オーバーロード'
+    },
+    {
+      en: 'kueri',
+      ja: 'クエリ'
+    },
+    {
+      en: 'sutore-zi',
+      ja: 'ストレージ'
+    },
+    {
+      en: 'sekyurithiho-ru',
+      ja: 'セキュリティホール'
+    },
+    {
+      en: 'domein',
+      ja: 'ドメイン'
+    },
+    {
+      en: 'paketto',
+      ja: 'パケット'
+    },
+    {
+      en: 'purotokoru',
+      ja: 'プロトコル'
+    },
+    {
+      en: 'maigure-syon',
+      ja: 'マイグレーション'
+    },
   ]
 
   /** 回答後の問題 */
@@ -146,7 +293,9 @@ export default class ItTyping extends Vue {
   private gameStart() {
     this.solvedWords = [];
     this.answers = 0
-    this.typingText = ''
+    this.typeCount = 0
+    this.typeMissCount = 0
+    this.charIndex = 0
     this.resultFlag = false
     this.rank = 'E'
     this.readFlag = true
@@ -173,18 +322,17 @@ export default class ItTyping extends Vue {
 
   /** ゲーム終了後 */
   private result() {
-    this.answers = this.solvedWords.length
     this.resultFlag = true
     this.startFlag = false
-    if (this.answers >= this.scoreD) {
+    if (this.score >= this.scoreD) {
       this.rank = this.rankD
-    } if (this.answers >= this.scoreC) {
+    } if (this.score >= this.scoreC) {
       this.rank = this.rankD
-    } if (this.answers >= this.scoreB) {
+    } if (this.score >= this.scoreB) {
       this.rank = this.rankB
-    } if (this.answers >= this.scoreA) {
+    } if (this.score >= this.scoreA) {
       this.rank = this.rankA
-    } if (this.answers >= this.scoreS) {
+    } if (this.score >= this.scoreS) {
       this.rank = this.rankS
     }
   }
@@ -246,6 +394,13 @@ export default class ItTyping extends Vue {
     return this.solvedWords.length + 1
   }
 
+  /** スコア */
+    get score(): number {
+    return Math.round(
+      (this.typeCount - (this.typeMissCount * 2))
+    )
+  }
+
   /** タイマー */
   countDown(): void {
     if (!this.startFlag) {
@@ -266,6 +421,7 @@ export default class ItTyping extends Vue {
     audioElem.play();
   }
 
+  /** タイプ音 */
   private typeSound() {
     const audioElem = new Audio();
     audioElem.src = "決定、ボタン押下31.mp3";
@@ -289,7 +445,6 @@ body {
 }
 
 .container {
-  width: 400px;
   margin: 0 auto;
   text-align: center;
 }
@@ -297,6 +452,9 @@ body {
 .title {
   position: relative;
   font-size: 48px;
+  h1 {
+    font-size: 1.5em;
+  }
 }
 
 .marker {
@@ -314,8 +472,9 @@ body {
   border-radius: 8px;
   cursor: pointer;
   p {
-    color: black;
     margin: auto 0;
+    color: #fffafa;
+    font-weight: 600;
   }
 }
 
@@ -346,11 +505,28 @@ body {
   }
 }
 
+.count-down-number {
+  font-size: 3em;
+}
+
+.word {
+  font-size: 2em;
+  width: 100%;
+}
+
+.ja-word {
+  font-size: 1.2puem;
+}
 
 .transparent {
   opacity: 0.3;
 }
+
 .underline {
   text-decoration: underline;
+}
+
+.rank-font {
+  font-size: 1.5em;
 }
 </style>

@@ -1,20 +1,29 @@
 <template>
-  <v-container>
-    <h2>モード選択</h2>
+  <v-container class="container">
+    <h2 class="mt-10 mode-title">Mode selection</h2>
     <v-row>
-      <v-col cols="4" class="mt-8">
-        <v-btn href="/gamedisplay">
-          IT用語モード
+      <v-col cols="4" class="mt-12">
+        <v-btn
+          href="/gamedisplay"
+          color="blue-grey"
+        >
+          <p class="button">IT</p>
         </v-btn>
       </v-col>
-      <v-col cols="4" class="mt-8"> 
-        <v-btn>
-          筋肉モード
+      <v-col cols="4" class="mt-12"> 
+        <v-btn
+         href="#"
+         color="blue-grey"
+        >
+          <p class="button">筋肉</p>
         </v-btn>
       </v-col>
-      <v-col cols="4" class="mt-8">
-        <v-btn>
-          若者言葉モード
+      <v-col cols="4" class="mt-12">
+        <v-btn
+         href="#"
+         color="blue-grey"
+        >
+          <p class="button">若者言葉</p>
         </v-btn>
       </v-col>
     </v-row>
@@ -28,5 +37,18 @@ import { Component, Vue } from 'vue-property-decorator';
 
 export default class Type extends Vue{}
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.container {
+  text-align: center;
+}
+
+.button {
+  color: #fffafa;
+  margin: auto 0;
+  font-weight: 600;
+}
+
+.mode-title {
+  color: #202020;
+}
 </style>
