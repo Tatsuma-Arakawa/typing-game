@@ -11,14 +11,24 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   {
-    path: '/type',
-    name: 'Type',
-    component: () => import('../views/Type.vue')
+    path: '/modeselection',
+    name: 'ModeSelection',
+    component: () => import('../views/ModeSelection.vue')
   },
   {
-    path: '/gamedisplay',
-    name: 'GameDispay',
-    component: () => import('../views/GameDisplay.vue')
+    path: '/ittyping',
+    name: 'ItTyping',
+    component: () => import('../views/ItTyping.vue')
+  },
+  {
+    path: '/muscletyping',
+    name: 'MuscleTyping',
+    component: () => import('../views/MuscleTyping.vue')
+  },
+  {
+    path: '/greatemantyping',
+    name: 'GreatManTyping',
+    component: () => import('../views/GreatManTyping.vue')
   }
 ]
 

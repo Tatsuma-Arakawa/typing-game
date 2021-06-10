@@ -4,26 +4,26 @@
     <v-row>
       <v-col cols="4" class="mt-12">
         <v-btn
-          href="/gamedisplay"
+          href="/ittyping"
           color="blue-grey"
         >
           <p class="button">IT</p>
         </v-btn>
       </v-col>
+      <v-col cols="4" class="mt-12">
+        <v-btn
+         href="/greatemantyping"
+         color="blue-grey"
+        >
+          <p class="button">世界の偉人</p>
+        </v-btn>
+      </v-col>
       <v-col cols="4" class="mt-12"> 
         <v-btn
-         href="#"
+         href="/muscletyping"
          color="blue-grey"
         >
           <p class="button">筋肉</p>
-        </v-btn>
-      </v-col>
-      <v-col cols="4" class="mt-12">
-        <v-btn
-         href="#"
-         color="blue-grey"
-        >
-          <p class="button">若者言葉</p>
         </v-btn>
       </v-col>
     </v-row>
