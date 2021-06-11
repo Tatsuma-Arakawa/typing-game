@@ -14,6 +14,12 @@
       >
         <p>Click to start</p>
       </v-btn>
+      <v-text-field
+        class="name-text-field mt-10"
+        value="名無し"
+        label="Your name"
+      >
+      </v-text-field>
     </div>
 
     <!-- カウントダウン -->
@@ -83,6 +89,15 @@
         <div>ミスタイプ数: {{ typeMissCount }}問</div>
       </div>
 
+      <v-btn
+        class="mt-5"
+        href="/modeselection"
+        color="blue-grey"
+        small
+      >
+        <p class="button">Return to mode selection</p>
+      </v-btn>
+
     </div>
   </div>
 </template>
@@ -93,11 +108,6 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 
 export default class ItTyping extends Vue {
-  /** 課題 */
-  // ランキング機能
-  // 他モード追加
-  // 全体デザイン修正
-
   /** ゲームスタート */
   private startFlag = false;
 
@@ -143,7 +153,7 @@ export default class ItTyping extends Vue {
   private scoreS = 280
 
   /** 問題 */
-  private words = [
+  private words: Array<{en: string; ja: string}> = [
     {
       en: 'injekusyonkougeki',
       ja: 'インジェクション攻撃'
@@ -290,7 +300,7 @@ export default class ItTyping extends Vue {
   private solvedWords: Array<string> = [];
 
   /** ゲームスタート */
-  private gameStart() {
+  private gameStart(): void {
     this.solvedWords = [];
     this.answers = 0
     this.typeCount = 0
@@ -321,7 +331,7 @@ export default class ItTyping extends Vue {
   }
 
   /** ゲーム終了後 */
-  private result() {
+  private result(): void {
     this.resultFlag = true
     this.startFlag = false
     if (this.score >= this.scoreD) {
@@ -338,8 +348,7 @@ export default class ItTyping extends Vue {
   }
 
   /** ランダムで問題を出題する */
-  // TODO 一度出た問題でも繰り返し出る様に変更?
-  private get currentWord() {
+  private get currentWord(): { en: string; ja: string; } {
     const unsolvedWords = this.words.filter((word) => {
       return (!this.solvedWords.includes(word as never))
     })
@@ -348,7 +357,7 @@ export default class ItTyping extends Vue {
   }
 
   /** 次の問題 */
-  private nextWord() {
+  private nextWord(): void {
     this.solvedWords.push(this.currentWord.en as never)
   } 
 
@@ -390,7 +399,7 @@ export default class ItTyping extends Vue {
   }
 
   /** 回答中の問題番号 */
-  private get currentWordNumber() {
+  private get currentWordNumber(): number {
     return this.solvedWords.length + 1
   }
 
@@ -415,14 +424,14 @@ export default class ItTyping extends Vue {
   }
 
   /** ミス音 */
-  private missSound() {
+  private missSound(): void {
     const audioElem = new Audio();
     audioElem.src = "Quiz-Wrong_Buzzer02-1.mp3";
     audioElem.play();
   }
 
   /** タイプ音 */
-  private typeSound() {
+  private typeSound(): void {
     const audioElem = new Audio();
     audioElem.src = "決定、ボタン押下31.mp3";
     audioElem.play();
@@ -528,5 +537,16 @@ body {
 
 .rank-font {
   font-size: 1.5em;
+}
+
+.button {
+  color: #fffafa;
+  margin: auto 0;
+  font-weight: 600;
+}
+
+.name-text-field {
+  margin: 0 auto;
+  max-width: 300px;
 }
 </style>

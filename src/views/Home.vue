@@ -28,16 +28,16 @@
         <h2 class="mb-5">Ranking</h2>
           <v-card class="home-card" color="#f0f8ff">
             <p class="font">
-              1位 サンプル 500pt<br>
-              2位 サンプル 500pt<br>
-              3位 サンプル 500pt<br>
-              4位 サンプル 500pt<br>
-              5位 サンプル 500pt<br>
-              6位 サンプル 500pt<br>
-              7位 サンプル 500pt<br>
-              8位 サンプル 500pt<br>
-              9位 サンプル 500pt<br>
-              10位 サンプル 500pt<br>
+              1位 サンプル ITモード 500pt<br>
+              2位 サンプル 筋肉モード 500pt<br>
+              3位 サンプル 世界の偉人モード 500pt<br>
+              4位 サンプル ITモード 500pt<br>
+              5位 サンプル ITモード 500pt<br>
+              6位 サンプル ITモード 500pt<br>
+              7位 サンプル ITモード 500pt<br>
+              8位 サンプル ITモード 500pt<br>
+              9位 サンプル ITモード 500pt<br>
+              10位 サンプル ITモード 500pt<br>
             </p>
           </v-card>
       </v-col>
