@@ -14,32 +14,33 @@
       <v-col cols="6" class="mt-10">
         <div>
           <h2 class="mb-5">How to play</h2>
-          <v-card class="home-card" color="#f0f8ff">
-            <p class="font">
+          <v-card class="home-card" color="#f0f8ff" tile>
+            <p class="font how-to-play ma-0 pa-2">
               ・ローマ字入力用のタイピングゲームです。<br>
               ・ITモード、世界の偉人モード、筋肉モード、から選択出来ます。<br>
               ・制限時間は一分です。<br>
-              ・ミスタイプで減点です。
+              ・ミスタイプで減点です。<br><br>
+              ・Sランク: 280pt〜<br>
+              ・Aランク: 230pt〜279pt<br>
+              ・Bランク: 180pt〜229pt<br>
+              ・Cランク: 130pt〜179pt<br>
+              ・Dランク: 80pt〜129pt<br>
+              ・Eランク: 0pt〜79pts<br>
             </p>
           </v-card>
         </div>
       </v-col>
       <v-col cols="6" class="mt-10">
-        <h2 class="mb-5">Ranking</h2>
-          <v-card class="home-card" color="#f0f8ff">
-            <p class="font">
-              1位 サンプル ITモード 500pt<br>
-              2位 サンプル 筋肉モード 500pt<br>
-              3位 サンプル 世界の偉人モード 500pt<br>
-              4位 サンプル ITモード 500pt<br>
-              5位 サンプル ITモード 500pt<br>
-              6位 サンプル ITモード 500pt<br>
-              7位 サンプル ITモード 500pt<br>
-              8位 サンプル ITモード 500pt<br>
-              9位 サンプル ITモード 500pt<br>
-              10位 サンプル ITモード 500pt<br>
-            </p>
+        <div>
+          <h2 class="mb-5">Ranking</h2>
+          <v-card class="home-card" color="#f0f8ff" tile>
+            <template v-for="(result, index) in results">
+              <p :key="index" class="py-2 pl-5 ma-0 rankign-data font">
+                {{ results.indexOf(result) + 1 }}位 {{ result.data.name }} {{ result.data.mode }}モード {{ result.data.rank }}ランク {{ result.data.score }}pt
+              </p>
+            </template>
           </v-card>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -47,17 +48,51 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
+import db from '@/plugins/firestore'
+ 
 @Component({})
 
-export default class HomePage extends Vue{}
+export default class Home extends Vue{
+  private results: Array<{
+    id: string;
+    data: {
+      name: string;
+      score: number;
+      mode: string
+    }
+  }> = []
+  
+  private read(): void {
+    db.collection('results')
+      .orderBy('score', 'desc')
+      .limit(10)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          this.results.push({
+            id: doc.id,
+            data: doc.data()
+          })
+        })
+      })
+  }
+  private created () {
+    this.read()
+  }
+}
 </script>
 <style lang="scss" scoped>
 .home-card {
-  height: 300px;
+  height: 100%  ;
+  max-width: 500px;
+  margin: 0 auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-flow: column;
+  align-items: left;
+}
+
+.rankign-data {
+  border: 1px solid gray;
 }
 
 .button {
@@ -69,5 +104,9 @@ export default class HomePage extends Vue{}
 .font {
   color: #202020;
   text-align: left;
+}
+
+.how-to-play {
+  border: 1px solid gray;
 }
 </style>

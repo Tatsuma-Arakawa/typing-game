@@ -7,19 +7,33 @@
         <h1>ITモード</h1>
         <div class="marker"></div>
       </div>
-      <v-btn
+      <div>
+        <v-btn
         class="startButton mt-10"
         @click="gameStart"
         color="blue-grey"
-      >
-        <p>Click to start</p>
-      </v-btn>
+        >
+          <p>Click to start</p>
+        </v-btn>
+      </div>
+
       <v-text-field
         class="name-text-field mt-10"
-        value="名無し"
         label="Your name"
+        v-model="name"
       >
       </v-text-field>
+
+      <div class="mt-5">
+        <v-btn
+        href="/result"
+        color="blue-grey"
+        small
+        >
+          <p class="button">View ranking</p>
+        </v-btn>
+      </div>
+
     </div>
 
     <!-- カウントダウン -->
@@ -69,6 +83,19 @@
         <div>ランク: {{ rank }}</div>
       </div>
 
+      <!-- ランキング -->
+      <div class="display-none">
+        {{ scores = results.map(item => item.data.score) }}
+      </div>
+      <div class="font-weight-bold rank-font">
+        <div v-if="scores.findIndex((item) => this.score > item) == -1">
+          ランキング: {{ scores.length + 1 }}位
+        </div>
+        <div v-else>
+          ランキング: {{ scores.findIndex((item) => this.score > item) + 1 }}位
+        </div>
+      </div>
+
       <!-- スコア -->
       <div class="mt-10">
         <div>スコア: {{ score }}</div>
@@ -104,6 +131,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import db from '@/plugins/firestore'
 
 @Component({})
 
@@ -139,6 +167,9 @@ export default class ItTyping extends Vue {
 
   /** ミスタイプ数 */
   private typeMissCount = 0;
+
+  /** 名前 */
+  private name = '名無し'
 
   private rankD = 'D'
   private rankC = 'C'
@@ -299,6 +330,39 @@ export default class ItTyping extends Vue {
   /** 回答後の問題 */
   private solvedWords: Array<string> = [];
 
+  /** 過去ランキング */
+  private results: Array<{
+    id: string;
+    data: {
+      name: string;
+      score: number;
+      mode: string;
+      rank: string;
+    }
+  }> = []
+  
+  /** 過去ランキング結果取得 */
+  private read(): void {
+    db.collection('results')
+      .orderBy('score', 'desc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          this.results.push({
+            id: doc.id,
+            data: doc.data()
+          })
+        })
+      })
+  }
+  private created (): void {
+    this.read()
+  }
+
+  /** スコアの配列 */
+  private scores: Array<number> = this.results.map(item => item.data.score)
+ 
+ 
   /** ゲームスタート */
   private gameStart(): void {
     this.solvedWords = [];
@@ -345,6 +409,14 @@ export default class ItTyping extends Vue {
     } if (this.score >= this.scoreS) {
       this.rank = this.rankS
     }
+    /** firestoreに情報を追加 */
+    db.collection('results')
+      .add({
+        name: this.name,
+        score: this.score,
+        mode: 'IT',
+        rank: this.rank
+      })
   }
 
   /** ランダムで問題を出題する */
@@ -359,8 +431,7 @@ export default class ItTyping extends Vue {
   /** 次の問題 */
   private nextWord(): void {
     this.solvedWords.push(this.currentWord.en as never)
-  } 
-
+  }
   /** 入力した文字と問題が同じか確認 */
   private keyCheck(e: any) {
     this.typeCount += 1
@@ -548,5 +619,9 @@ body {
 .name-text-field {
   margin: 0 auto;
   max-width: 300px;
+}
+
+.display-none {
+  display: none;
 }
 </style>

@@ -29,6 +29,11 @@ const routes: Array<RouteConfig> = [
     path: '/greatemantyping',
     name: 'GreatManTyping',
     component: () => import('../views/GreatManTyping.vue')
+  },
+  {
+    path: '/result',
+    name: 'Result',
+    component: () => import('../views/Result.vue')
   }
 ]
 
