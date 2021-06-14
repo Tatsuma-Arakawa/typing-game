@@ -7,6 +7,8 @@
         <h1>ITモード</h1>
         <div class="marker"></div>
       </div>
+
+      <!-- スタートボタン -->
       <div>
         <v-btn
         class="startButton mt-10"
@@ -17,6 +19,7 @@
         </v-btn>
       </div>
 
+      <!-- 名前入力欄 -->
       <v-text-field
         class="name-text-field mt-10"
         label="Your name"
@@ -24,6 +27,7 @@
       >
       </v-text-field>
 
+      <!-- ランキングページ遷移ボタン -->
       <div class="mt-5">
         <v-btn
         href="/result"
@@ -202,7 +206,7 @@ export default class ItTyping extends Vue {
       ja: 'ユーザーインターフェース'
     },
     {
-      en: 'kihonjouhougijutusyasiken',
+      en: 'kihonjouhougijutusyasikenn',
       ja: '基本情報技術者試験'
     },
     {
@@ -214,7 +218,7 @@ export default class ItTyping extends Vue {
       ja: 'クロスサイトリクエストフォージェリ'
     },
     {
-      en: 'sqlinjekusyon',
+      en: 'sqlinjekusyonn',
       ja: 'SQLインジェクション'
     },
     {
@@ -246,7 +250,7 @@ export default class ItTyping extends Vue {
       ja: 'データベース'
     },
     {
-      en: 'burokkuche-n',
+      en: 'burokkuche-nn',
       ja: 'ブロックチェーン'
     },
     {
@@ -270,7 +274,7 @@ export default class ItTyping extends Vue {
       ja: 'ファイアフォール'
     },
     {
-      en: 'toranzakusyon',
+      en: 'toranzakusyonn',
       ja: 'トランザクション'
     },
     {
@@ -310,7 +314,7 @@ export default class ItTyping extends Vue {
       ja: 'セキュリティホール'
     },
     {
-      en: 'domein',
+      en: 'domeinn',
       ja: 'ドメイン'
     },
     {
@@ -322,7 +326,7 @@ export default class ItTyping extends Vue {
       ja: 'プロトコル'
     },
     {
-      en: 'maigure-syon',
+      en: 'maigure-syonn',
       ja: 'マイグレーション'
     },
   ]
@@ -350,7 +354,7 @@ export default class ItTyping extends Vue {
         querySnapshot.forEach(doc => {
           this.results.push({
             id: doc.id,
-            data: doc.data()
+            data: doc.data() as any
           })
         })
       })
@@ -361,7 +365,6 @@ export default class ItTyping extends Vue {
 
   /** スコアの配列 */
   private scores: Array<number> = this.results.map(item => item.data.score)
- 
  
   /** ゲームスタート */
   private gameStart(): void {
@@ -421,10 +424,10 @@ export default class ItTyping extends Vue {
 
   /** ランダムで問題を出題する */
   private get currentWord(): { en: string; ja: string; } {
-    const unsolvedWords = this.words.filter((word) => {
+    const unsolvedWords = this.words.filter((word: {en: string; ja: string}) => {
       return (!this.solvedWords.includes(word as never))
     })
-    const randomIndex = Math.floor(Math.random()*unsolvedWords.length)
+    const randomIndex: number = Math.floor(Math.random()*unsolvedWords.length)
     return unsolvedWords[randomIndex]
   }
 
@@ -556,32 +559,8 @@ body {
     color: #fffafa;
     font-weight: 600;
   }
-}
-
-.startButton:hover {
-  opacity: 0.7;
-}
-
-.question {
-  color: gray;
-}
-
-.gauge {
-  height: 12px;
-  transition: all .3s ease;
-}
-
-.gaugeWrapper {
-  border: 1px solid;
-  height: 12px;
-}
-
-.input-area {
-  border-bottom:solid 1px gray ;
-  input {
-    text-align: center;
-    border: none;
-    outline: none;
+  :hover {
+    opacity: 0.7;
   }
 }
 
@@ -595,7 +574,7 @@ body {
 }
 
 .ja-word {
-  font-size: 1.2puem;
+  font-size: 1.2em;
 }
 
 .transparent {
@@ -603,7 +582,7 @@ body {
 }
 
 .underline {
-  text-decoration: underline;
+  font-size: 1.1em;
 }
 
 .rank-font {

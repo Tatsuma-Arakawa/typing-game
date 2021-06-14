@@ -7,13 +7,37 @@
         <h1>ITモード</h1>
         <div class="marker"></div>
       </div>
-      <v-btn
+
+      <!-- スタートボタン -->
+      <div>
+        <v-btn
         class="startButton mt-10"
         @click="gameStart"
         color="blue-grey"
+        >
+          <p>Click to start</p>
+        </v-btn>
+      </div>
+
+      <!-- 名前入力欄 -->
+      <v-text-field
+        class="name-text-field mt-10"
+        label="Your name"
+        v-model="name"
       >
-        <p>Click to start</p>
-      </v-btn>
+      </v-text-field>
+
+      <!-- ランキングページ遷移ボタン -->
+      <div class="mt-5">
+        <v-btn
+        href="/result"
+        color="blue-grey"
+        small
+        >
+          <p class="button">View ranking</p>
+        </v-btn>
+      </div>
+
     </div>
 
     <!-- カウントダウン -->
@@ -63,6 +87,19 @@
         <div>ランク: {{ rank }}</div>
       </div>
 
+      <!-- ランキング -->
+      <div class="display-none">
+        {{ scores = results.map(item => item.data.score) }}
+      </div>
+      <div class="font-weight-bold rank-font">
+        <div v-if="scores.findIndex((item) => this.score > item) == -1">
+          ランキング: {{ scores.length + 1 }}位
+        </div>
+        <div v-else>
+          ランキング: {{ scores.findIndex((item) => this.score > item) + 1 }}位
+        </div>
+      </div>
+
       <!-- スコア -->
       <div class="mt-10">
         <div>スコア: {{ score }}</div>
@@ -83,21 +120,26 @@
         <div>ミスタイプ数: {{ typeMissCount }}問</div>
       </div>
 
+      <v-btn
+        class="mt-5"
+        href="/modeselection"
+        color="blue-grey"
+        small
+      >
+        <p class="button">Return to mode selection</p>
+      </v-btn>
+
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import db from '@/plugins/firestore'
 
 @Component({})
 
 export default class ItTyping extends Vue {
-  /** 課題 */
-  // ランキング機能
-  // 他モード追加
-  // 全体デザイン修正
-
   /** ゲームスタート */
   private startFlag = false;
 
@@ -129,6 +171,9 @@ export default class ItTyping extends Vue {
 
   /** ミスタイプ数 */
   private typeMissCount = 0;
+
+  /** 名前 */
+  private name = '名無し'
 
   private rankD = 'D'
   private rankC = 'C'
@@ -289,6 +334,38 @@ export default class ItTyping extends Vue {
   /** 回答後の問題 */
   private solvedWords: Array<string> = [];
 
+  /** 過去ランキング */
+  private results: Array<{
+    id: string;
+    data: {
+      name: string;
+      score: number;
+      mode: string;
+      rank: string;
+    }
+  }> = []
+  
+  /** 過去ランキング結果取得 */
+  private read(): void {
+    db.collection('results')
+      .orderBy('score', 'desc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          this.results.push({
+            id: doc.id,
+            data: doc.data() as any
+          })
+        })
+      })
+  }
+  private created (): void {
+    this.read()
+  }
+
+  /** スコアの配列 */
+  private scores: Array<number> = this.results.map(item => item.data.score)
+ 
   /** ゲームスタート */
   private gameStart(): void {
     this.solvedWords = [];
@@ -335,23 +412,29 @@ export default class ItTyping extends Vue {
     } if (this.score >= this.scoreS) {
       this.rank = this.rankS
     }
+    /** firestoreに情報を追加 */
+    db.collection('results')
+      .add({
+        name: this.name,
+        score: this.score,
+        mode: 'IT',
+        rank: this.rank
+      })
   }
 
   /** ランダムで問題を出題する */
-  // TODO 一度出た問題でも繰り返し出る様に変更?
   private get currentWord(): { en: string; ja: string; } {
-    const unsolvedWords = this.words.filter((word) => {
+    const unsolvedWords = this.words.filter((word: {en: string; ja: string}) => {
       return (!this.solvedWords.includes(word as never))
     })
-    const randomIndex = Math.floor(Math.random()*unsolvedWords.length)
+    const randomIndex: number = Math.floor(Math.random()*unsolvedWords.length)
     return unsolvedWords[randomIndex]
   }
 
   /** 次の問題 */
   private nextWord(): void {
     this.solvedWords.push(this.currentWord.en as never)
-  } 
-
+  }
   /** 入力した文字と問題が同じか確認 */
   private keyCheck(e: any) {
     this.typeCount += 1
@@ -476,32 +559,8 @@ body {
     color: #fffafa;
     font-weight: 600;
   }
-}
-
-.startButton:hover {
-  opacity: 0.7;
-}
-
-.question {
-  color: gray;
-}
-
-.gauge {
-  height: 12px;
-  transition: all .3s ease;
-}
-
-.gaugeWrapper {
-  border: 1px solid;
-  height: 12px;
-}
-
-.input-area {
-  border-bottom:solid 1px gray ;
-  input {
-    text-align: center;
-    border: none;
-    outline: none;
+  :hover {
+    opacity: 0.7;
   }
 }
 
@@ -515,7 +574,7 @@ body {
 }
 
 .ja-word {
-  font-size: 1.2puem;
+  font-size: 1.2em;
 }
 
 .transparent {
@@ -523,10 +582,25 @@ body {
 }
 
 .underline {
-  text-decoration: underline;
+  font-size: 1.1em;
 }
 
 .rank-font {
   font-size: 1.5em;
+}
+
+.button {
+  color: #fffafa;
+  margin: auto 0;
+  font-weight: 600;
+}
+
+.name-text-field {
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.display-none {
+  display: none;
 }
 </style>

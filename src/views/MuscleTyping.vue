@@ -4,16 +4,40 @@
     <!-- スタート前 -->
     <div v-if="startFlag!=true" class="mt-10">
       <div class="title mt-5">
-        <h1>ITモード</h1>
+        <h1>筋肉モード</h1>
         <div class="marker"></div>
       </div>
-      <v-btn
+
+      <!-- スタートボタン -->
+      <div>
+        <v-btn
         class="startButton mt-10"
         @click="gameStart"
         color="blue-grey"
+        >
+          <p>Click to start</p>
+        </v-btn>
+      </div>
+
+      <!-- 名前入力欄 -->
+      <v-text-field
+        class="name-text-field mt-10"
+        label="Your name"
+        v-model="name"
       >
-        <p>Click to start</p>
-      </v-btn>
+      </v-text-field>
+
+      <!-- ランキングページ遷移ボタン -->
+      <div class="mt-5">
+        <v-btn
+        href="/result"
+        color="blue-grey"
+        small
+        >
+          <p class="button">View ranking</p>
+        </v-btn>
+      </div>
+
     </div>
 
     <!-- カウントダウン -->
@@ -63,6 +87,19 @@
         <div>ランク: {{ rank }}</div>
       </div>
 
+      <!-- ランキング -->
+      <div class="display-none">
+        {{ scores = results.map(item => item.data.score) }}
+      </div>
+      <div class="font-weight-bold rank-font">
+        <div v-if="scores.findIndex((item) => this.score > item) == -1">
+          ランキング: {{ scores.length + 1 }}位
+        </div>
+        <div v-else>
+          ランキング: {{ scores.findIndex((item) => this.score > item) + 1 }}位
+        </div>
+      </div>
+
       <!-- スコア -->
       <div class="mt-10">
         <div>スコア: {{ score }}</div>
@@ -83,21 +120,26 @@
         <div>ミスタイプ数: {{ typeMissCount }}問</div>
       </div>
 
+      <v-btn
+        class="mt-5"
+        href="/modeselection"
+        color="blue-grey"
+        small
+      >
+        <p class="button">Return to mode selection</p>
+      </v-btn>
+
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import db from '@/plugins/firestore'
 
 @Component({})
 
 export default class ItTyping extends Vue {
-  /** 課題 */
-  // ランキング機能
-  // 他モード追加
-  // 全体デザイン修正
-
   /** ゲームスタート */
   private startFlag = false;
 
@@ -130,6 +172,9 @@ export default class ItTyping extends Vue {
   /** ミスタイプ数 */
   private typeMissCount = 0;
 
+  /** 名前 */
+  private name = '名無し'
+
   private rankD = 'D'
   private rankC = 'C'
   private rankB = 'B'
@@ -145,150 +190,530 @@ export default class ItTyping extends Vue {
   /** 問題 */
   private words: Array<{en: string; ja: string}> = [
     {
-      en: 'injekusyonkougeki',
-      ja: 'インジェクション攻撃'
+      en: 'daikyoukinn',
+      ja: '大胸筋（だいきょうきん）'
     },
     {
-      en: 'obujekutosikou',
-      ja: 'オブジェクト指向'
+      en: 'syoukyoukinn',
+      ja: '小胸筋（しょうきょうきん）'
     },
     {
-      en: 'seitekikatadukegengo',
-      ja: '静的型付け言語'
+      en: 'sakotukakinn',
+      ja: '鎖骨下筋（さこつかきん）'
     },
     {
-      en: 'yu-za-inta-fe-su',
-      ja: 'ユーザーインターフェース'
+      en: 'zenkyokinn',
+      ja: '前鋸筋（ぜんきょきん）'
     },
     {
-      en: 'kihonjouhougijutusyasiken',
-      ja: '基本情報技術者試験'
+      en: 'gairokkankinn',
+      ja: '外肋間筋（がいろっかんきん）'
     },
     {
-      en: 'kurosusaitosukuriputhingu',
-      ja: 'クロスサイトスクリプティング'
+      en: 'nairokkankinn',
+      ja: '内肋間筋（ないろっかんきん）'
     },
     {
-      en: 'kurosusaitorikuesutofo-jeri',
-      ja: 'クロスサイトリクエストフォージェリ'
+      en: 'sainairokkankinn',
+      ja: '最内肋間筋（さいないろっかんきん）'
     },
     {
-      en: 'sqlinjekusyon',
-      ja: 'SQLインジェクション'
+      en: 'rokukakinn',
+      ja: '肋下筋（ろくかきん）'
     },
     {
-      en: 'apurike-syonsohuto',
-      ja: 'アプリケーションソフト'
+      en: 'kyououkinn',
+      ja: '胸横筋（きょうおうきん）'
     },
     {
-      en: 'o-punso-su',
-      ja: 'オープンソース'
+      en: 'rokkotukyokinn',
+      ja: '肋骨挙筋（ろっこつきょきん）'
     },
     {
-      en: 'sessyonhaijakku',
-      ja: 'セッションハイジャック'
+      en: 'oukakumaku',
+      ja: '横隔膜（おうかくまく）'
     },
     {
-      en: 'arugorizumu',
-      ja: 'アルゴリズム'
+      en: 'hukutyokukinn',
+      ja: '腹直筋（ふくちょくきん）'
+    },  
+    {
+      en: 'suitaikinn',
+      ja: '錐体筋（すいたいきん）'
     },
     {
-      en: 'puroguramingugengo',
-      ja: 'プログラミング言語'
+      en: 'gaihukusyakinn',
+      ja: '外腹斜筋（がいふくしゃきん）'
     },
     {
-      en: 'ma-kuappugengo',
-      ja: 'マークアップ言語'
+      en: 'naihukusyakinn',
+      ja: '内腹斜筋（ないふくしゃきん）'
     },
     {
-      en: 'de-tabe-su',
-      ja: 'データベース'
+      en: 'hukuoukinn',
+      ja: '腹横筋（ふくおうきん）'
     },
     {
-      en: 'burokkuche-n',
-      ja: 'ブロックチェーン'
+      en: 'youhoukeikinn',
+      ja: '腰方形筋（ようほうけいきん）'
     },
     {
-      en: 'javascript',
-      ja: 'JavaScript'
+      en: 'souboukinn',
+      ja: '僧帽筋（そうぼうきん）'
     },
     {
-      en: 'typescript',
-      ja: 'TypeScript'
+      en: 'kouhaikinn',
+      ja: '広背筋（こうはいきん）'
     },
     {
-      en: 'sisutemuinthigure-ta-',
-      ja: 'システムインティグレーター'
+      en: 'syouryoukeikinn',
+      ja: '小菱形筋（しょうりょうけいきん）'
     },
     {
-      en: 'indento',
-      ja: 'インデント'
+      en: 'dairyoukeikinn',
+      ja: '大菱形筋（だいりょうけいきん）'
     },
     {
-      en: 'faiafo-ru',
-      ja: 'ファイアフォール'
+      en: 'kenkoukyokinn',
+      ja: '肩甲挙筋（けんこうきょきん）'
     },
     {
-      en: 'toranzakusyon',
-      ja: 'トランザクション'
+      en: 'joukoukyokinn',
+      ja: '上後鋸筋（じょうこうきょきん）'
     },
     {
-      en: 'ro-dobaransa',
-      ja: 'ロードバランサ'
+      en: 'kakoukyokinn',
+      ja: '下後鋸筋（かこうきょきん）'
     },
     {
-      en: 'hure-muwa-ku',
-      ja: 'フレームワーク'
+      en: 'toubanjoukinn',
+      ja: '頭板状筋（とうばんじょうきん）'
     },
     {
-      en: 'inta-netto',
-      ja: 'インターネット'
+      en: 'keibanjoukinn',
+      ja: '頸板状筋（けいばんじょうきん）'
     },
     {
-      en: 'inhura',
-      ja: 'インフラ'
+      en: 'tyourokukinn',
+      ja: '腸肋筋（ちょうろくきん）'
     },
     {
-      en: 'i-sanetto',
-      ja: 'イーサネット'
+      en: 'saityoukinn',
+      ja: '最長筋（さいちょうきん）'
     },
     {
-      en: 'o-ba-ro-do',
-      ja: 'オーバーロード'
+      en: 'kyokukinn',
+      ja: '棘筋（きょくきん）'
     },
     {
-      en: 'kueri',
-      ja: 'クエリ'
+      en: 'hankyokukinn',
+      ja: '半棘筋（はんきょくきん）'
     },
     {
-      en: 'sutore-zi',
-      ja: 'ストレージ'
+      en: 'taretukinn',
+      ja: '多裂筋（たれつきん）'
     },
     {
-      en: 'sekyurithiho-ru',
-      ja: 'セキュリティホール'
+      en: 'kaisenkinn',
+      ja: '回旋筋（かいせんきん）'
     },
     {
-      en: 'domein',
-      ja: 'ドメイン'
+      en: 'sankakukinn',
+      ja: '三角筋（さんかくきん）'
     },
     {
-      en: 'paketto',
-      ja: 'パケット'
+      en: 'syouenkinn',
+      ja: '小円筋（しょうえんきん）'
     },
     {
-      en: 'purotokoru',
-      ja: 'プロトコル'
+      en: 'kyokujoukinn',
+      ja: '棘上筋（きょくじょうきん）'
     },
     {
-      en: 'maigure-syon',
-      ja: 'マイグレーション'
+      en: 'kyokukakinn',
+      ja: '棘下筋（きょくかきん）'
     },
+    {
+      en: 'daienkinn',
+      ja: '大円筋（だいえんきん）'
+    },
+    {
+      en: 'kenkoukakinn',
+      ja: '肩甲下筋（けんこうかきん）'
+    },
+    {
+      en: 'jouwannnitoukinn',
+      ja: '上腕二頭筋（じょうわんにとうきん）'
+    },
+    {
+      en: 'ukouwankinn',
+      ja: '鳥口腕筋（うこうわんきん）'
+    },
+    {
+      en: 'jouwankinn',
+      ja: '上腕筋（じょうわんきん）'
+    },
+    {
+      en: 'jouwansantoukinn',
+      ja: '上腕三頭筋（じょうわんさんとうきん）'
+    },
+    {
+      en: 'tyuukinn',
+      ja: '肘筋（ちゅうきん）'
+    },
+    {
+      en: 'enkainaikinn',
+      ja: '円回内筋（えんかいないきん）'
+    },
+    {
+      en: 'tousokusyukonkukkinn',
+      ja: '橈側手根屈筋（とうそくしゅこんくっきん）'
+    },
+    {
+      en: 'tyousyoukinn',
+      ja: '長掌筋（ちょうしょうきん）'
+    },
+    {
+      en: 'syakusokusyukonkukkinn',
+      ja: '尺側手根屈筋（しゃくそくしゅこんくっきん）'
+    },
+    {
+      en: 'sensikukkinn',
+      ja: '浅指屈筋（せんしくっきん）'
+    },
+    {
+      en: 'sinsikukkinn',
+      ja: '深指屈筋（しんしくっきん）'
+    },
+    {
+      en: 'tyoubosikukkinn',
+      ja: '長母指屈筋（ちょうぼしくっきん）'
+    },
+    {
+      en: 'houkeikainaikinn',
+      ja: '方形回内筋（ほうけいかいないきん）'
+    },
+    {
+      en: 'wantoukoukinn',
+      ja: '腕橈骨筋（わんとうこうきん）'
+    },
+    {
+      en: 'tyoutousokusyukonsinkinn',
+      ja: '長橈側手根伸筋（ちょうとうそくしゅこんしんきん）'
+    },
+    {
+      en: 'tantousokusyukonsinkinn',
+      ja: '短橈側手根伸筋（たんとうそくしゅこんしんきん）'
+    },
+    {
+      en: 'sisinkinn',
+      ja: '指伸筋（ししんきん）'
+    },
+    {
+      en: 'syousisinkinn',
+      ja: '小指伸筋（しょうししんきん）'
+    },
+    {
+      en: 'syakusokusyukonsinkinn',
+      ja: '尺側手根伸筋（しゃくそくしゅこんしんきん）'
+    },
+    {
+      en: 'kaigaikinn',
+      ja: '回外筋（かいがいきん）「'
+    },
+    {
+      en: 'tyoubosigaitenkinn',
+      ja: '長母指外転筋（ちょうぼしがいてんきん）'
+    },
+    {
+      en: 'tanbosisinkinn',
+      ja: '短母指伸筋（たんぼししんきん）'
+    },
+    {
+      en: 'tyoubosisinkinn',
+      ja: '長母指伸筋（ちょうぼししんきん）'
+    },
+    {
+      en: 'zisisinkinn',
+      ja: '示指伸筋（じししんきん）'
+    },
+    {
+      en: 'tanbosigaitenkinn',
+      ja: '短母指外転筋（たんぼしがいてんきん）'
+    },
+    {
+      en: 'tanbosikukkinn',
+      ja: '短母指屈筋（たんぼしくっきん）'
+    },
+    {
+      en: 'bositairitukinn',
+      ja: '母指対立筋（ぼしたいりつきん）'
+    },
+    {
+      en: 'bosinaitenkinn',
+      ja: '母指内転筋（ぼしないてんきん）'
+    },
+    {
+      en: 'tansyoukinn',
+      ja: '短掌筋（たんしょうきん）'
+    },
+    {
+      en: 'syousigaitenkinn',
+      ja: '小指外転勤（しょうしがいてんきん）'
+    },
+    {
+      en: 'tansyousikukkinn',
+      ja: '短小指屈筋（たんしょうしくっきん）'
+    },
+    {
+      en: 'syousitairitukinn',
+      ja: '小指対立筋（しょうしたいりつきん）'
+    },
+    {
+      en: 'tyouyoukinn',
+      ja: '虫様筋（ちゅうようきん）'
+    },
+    {
+      en: 'syousokukokkankinn',
+      ja: '掌側骨間筋（しょうそくこっかんきん）'
+    },
+    {
+      en: 'haisokukokkankinn',
+      ja: '背側骨間筋（はいそくこっかんきん）'
+    },
+    {
+      en: 'tyoukotukinn',
+      ja: '腸骨筋（ちょうこつきん）'
+    },
+    {
+      en: 'daiyoukinn',
+      ja: '大腰筋（だいようきん）'
+    },
+    {
+      en: 'syouyoukinn',
+      ja: '小腰筋（しょうようきん）'
+    },
+    {
+      en: 'daidenkinn',
+      ja: '大臀筋（だいでんきん）'
+    },
+    {
+      en: 'syoudenkinn',
+      ja: '小臀筋（しょうでんきん）'
+    },
+    {
+      en: 'daitaikinmakutyoukinn',
+      ja: '大腿筋膜張筋（だいたいきんまくちょうきん）'
+    },
+    {
+      en: 'rijoukinn',
+      ja: '梨状筋（りじょうきん）'
+    },
+    {
+      en: 'naiheisakinn',
+      ja: '内閉鎖筋（ないへいさきん）'
+    },
+    {
+      en: 'jousousikinn',
+      ja: '上双子筋（じょうそうしきん）'
+    },
+    {
+      en: 'kasousikinn',
+      ja: '下双子筋（かそうしきん）'
+    },
+    {
+      en: 'daitaihoukeikenn',
+      ja: '大腿方形筋（だいたいほうけいきん）'
+    },
+    {
+      en: 'houkoukinn',
+      ja: '縫工筋（ほうこうきん）'
+    },
+    {
+      en: 'daitaityokkinn',
+      ja: '大腿直筋（だいたいちょっきん）'
+    },
+    {
+      en: 'naisokukoukinn',
+      ja: '内側広筋（ないそくこうきん）'
+    },
+    {
+      en: 'tyuukankoukinn',
+      ja: '中間広筋（ちゅうかんこうきん）'
+    },
+    {
+      en: 'gaisokukoukinn',
+      ja: '外側広筋（がいそくこうきん）'
+    },
+    {
+      en: 'tikotukinn',
+      ja: '恥骨筋（ちこつきん）'
+    },
+    {
+      en: 'tyounaitenkinn',
+      ja: '長内転筋（ちょうないてんきん）'
+    },
+    {
+      en: 'tannaitenkinn',
+      ja: '短内転筋（たんないてんきん）'
+    },
+    {
+      en: 'dainaitenkinn',
+      ja: '大内転筋（だいないてんきん）'
+    },
+    {
+      en: 'hakukinn',
+      ja: '薄筋（はくきん）'
+    },
+    {
+      en: 'gaiheisakinn',
+      ja: '外閉鎖筋（がいへいさきん）'
+    },
+    {
+      en: 'daitanitoukinn',
+      ja: '大腿二頭筋（だいたにとうきん）'
+    },
+    {
+      en: 'hankenyoukinn',
+      ja: '半腱様筋（はんけんようきん）'
+    },
+    {
+      en: 'hanmakuyoukinn',
+      ja: '半膜様筋（はんまくようきん）'
+    },
+    {
+      en: 'zenkeikotukinn',
+      ja: '前脛骨筋（ぜんけいこつきん）'
+    },
+    {
+      en: 'tyoubosisinkinn',
+      ja: '長母趾伸筋（ちょうぼししんきん）'
+    },
+    {
+      en: 'tyousisinkinn',
+      ja: '長趾伸筋（ちょうししんきん）'
+    },
+    {
+      en: 'daisanhikotukinn',
+      ja: '第三腓骨筋（だいさんひこつきん）'
+    },
+    {
+      en: 'tyouhikotukinn',
+      ja: '長腓骨筋（ちょうひこつきん）'
+    },
+    {
+      en: 'tanhikotukinn',
+      ja: '短腓骨筋（たんひこつきん）'
+    },
+    {
+      en: 'kataisantoukinn',
+      ja: '下腿三頭筋（かたいさんとうきん）'
+    },
+    {
+      en: 'sokuteikinn',
+      ja: '足低筋（そくていきん）'
+    },
+    {
+      en: 'sikkakinn',
+      ja: '膝窩筋（しっかきん）'
+    },
+    {
+      en: 'koukeikotukinn',
+      ja: '後脛骨筋（こうけいこつきん）'
+    },
+    {
+      en: 'tyousikukkinn',
+      ja: '長趾屈筋（ちょうしくっきん）'
+    },
+    {
+      en: 'tyoubosikukkinn',
+      ja: '長母趾屈筋（ちょうぼしくっきん）'
+    },
+    {
+      en: 'tanbosisinkinn',
+      ja: '短母趾伸筋（たんぼししんきん）'
+    },
+    {
+      en: 'tansisinkinn',
+      ja: '短趾伸筋（たんししんきん）'
+    },
+    {
+      en: 'tanbosikukkinn',
+      ja: '短母趾屈筋（たんぼしくっきん）c'
+    },
+    {
+      en: 'bosinaitenkinn',
+      ja: '母趾内転筋（ぼしないてんきん）'
+    },
+    {
+      en: 'bosigaitenkinn',
+      ja: '母趾外転筋（ぼしがいてんきん）'
+    },
+    {
+      en: 'syousigaitenkinn',
+      ja: '小趾外転筋（しょうしがいてんきん）'
+    },
+    {
+      en: 'tansyousikukkinn',
+      ja: '短小趾屈筋（たんしょうしくっきん）'
+    },
+    {
+      en: 'tansikukkinn',
+      ja: '短趾屈筋（たんしくっきん）'
+    },
+    {
+      en: 'sokuteihoukeikinn',
+      ja: '足底方形筋（そくていほうけいきん）'
+    },
+    {
+      en: 'tyouyoukinn',
+      ja: '虫様筋（ちょうようきん）'
+    },
+    {
+      en: 'teisokukokkankinn',
+      ja: '低側骨間筋（ていそくこっかんきん）'
+    },
+    {
+      en: 'haisokukokkankinn',
+      ja: '背側骨間筋（はいそくこっかんきん）'
+    }
   ]
 
   /** 回答後の問題 */
   private solvedWords: Array<string> = [];
 
+  /** 過去ランキング */
+  private results: Array<{
+    id: string;
+    data: {
+      name: string;
+      score: number;
+      mode: string;
+      rank: string;
+    }
+  }> = []
+  
+  /** 過去ランキング結果取得 */
+  private read(): void {
+    db.collection('results')
+      .orderBy('score', 'desc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          this.results.push({
+            id: doc.id,
+            data: doc.data() as any
+          })
+        })
+      })
+  }
+  private created (): void {
+    this.read()
+  }
+
+  /** スコアの配列 */
+  private scores: Array<number> = this.results.map(item => item.data.score)
+ 
   /** ゲームスタート */
   private gameStart(): void {
     this.solvedWords = [];
@@ -335,23 +760,29 @@ export default class ItTyping extends Vue {
     } if (this.score >= this.scoreS) {
       this.rank = this.rankS
     }
+    /** firestoreに情報を追加 */
+    db.collection('results')
+      .add({
+        name: this.name,
+        score: this.score,
+        mode: '筋肉',
+        rank: this.rank
+      })
   }
 
   /** ランダムで問題を出題する */
-  // TODO 一度出た問題でも繰り返し出る様に変更?
   private get currentWord(): { en: string; ja: string; } {
-    const unsolvedWords = this.words.filter((word) => {
+    const unsolvedWords = this.words.filter((word: {en: string; ja: string}) => {
       return (!this.solvedWords.includes(word as never))
     })
-    const randomIndex = Math.floor(Math.random()*unsolvedWords.length)
+    const randomIndex: number = Math.floor(Math.random()*unsolvedWords.length)
     return unsolvedWords[randomIndex]
   }
 
   /** 次の問題 */
   private nextWord(): void {
     this.solvedWords.push(this.currentWord.en as never)
-  } 
-
+  }
   /** 入力した文字と問題が同じか確認 */
   private keyCheck(e: any) {
     this.typeCount += 1
@@ -476,32 +907,8 @@ body {
     color: #fffafa;
     font-weight: 600;
   }
-}
-
-.startButton:hover {
-  opacity: 0.7;
-}
-
-.question {
-  color: gray;
-}
-
-.gauge {
-  height: 12px;
-  transition: all .3s ease;
-}
-
-.gaugeWrapper {
-  border: 1px solid;
-  height: 12px;
-}
-
-.input-area {
-  border-bottom:solid 1px gray ;
-  input {
-    text-align: center;
-    border: none;
-    outline: none;
+  :hover {
+    opacity: 0.7;
   }
 }
 
@@ -515,7 +922,7 @@ body {
 }
 
 .ja-word {
-  font-size: 1.2puem;
+  font-size: 1.2em;
 }
 
 .transparent {
@@ -523,10 +930,25 @@ body {
 }
 
 .underline {
-  text-decoration: underline;
+  font-size: 1.1em;
 }
 
 .rank-font {
   font-size: 1.5em;
+}
+
+.button {
+  color: #fffafa;
+  margin: auto 0;
+  font-weight: 600;
+}
+
+.name-text-field {
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.display-none {
+  display: none;
 }
 </style>

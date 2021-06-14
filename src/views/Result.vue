@@ -66,7 +66,7 @@ export default class Result extends Vue{
         querySnapshot.forEach(doc => {
           this.results.push({
             id: doc.id,
-            data: doc.data()
+            data: doc.data() as any
           })
         })
       })
