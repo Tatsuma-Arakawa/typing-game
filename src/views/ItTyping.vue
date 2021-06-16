@@ -375,6 +375,74 @@ export default class ItTyping extends Vue {
       en: 'ro-rubakku',
       ja: 'ロールバック'
     },
+    {
+      en: 'a-kitekucha-',
+      ja: 'アーキテクチャー'
+    },
+    {
+      en: 'html',
+      ja: 'HTML'
+    },
+    {
+      en: 'cssd',
+      ja: 'CSS'
+    },
+    {
+      en: 'moju-ru',
+      ja: 'モジュール'
+    },
+    {
+      en: 'waiya-hure-mu',
+      ja: 'ワイヤーフレーム'
+    },
+    {
+      en: 'firebase',
+      ja: 'Firebase'
+    },
+    {
+      en: 'php',
+      ja: 'PHP'
+    },
+    {
+      en: 'python',
+      ja: 'Python'
+    },
+    {
+      en: 'go',
+      ja: 'GO'
+    },
+    {
+      en: 'kotlin',
+      ja: 'Kotlin'
+    },
+    {
+      en: 'swift',
+      ja: 'Swift'
+    },
+    {
+      en: 'node.js',
+      ja: 'Node.js'
+    },
+    {
+      en: 'express.js',
+      ja: 'Express.js'
+    },
+    {
+      en: 'nest.js',
+      ja: 'Nest.js'
+    },
+    {
+      en: 'vue.js',
+      ja: 'Vue.js'
+    },
+    {
+      en: 'react.js',
+      ja: 'React.js'
+    },
+    {
+      en: 'next.js',
+      ja: 'Next.js'
+    },
   ]
   private words: Array<{en: string; ja: string}> = this.wordList
 
