@@ -4,7 +4,7 @@
     <!-- スタート前 -->
     <div v-if="startFlag!=true" class="mt-10">
       <div class="title mt-5">
-        <h1>ITモード</h1>
+        <h1>世界の偉人モード</h1>
         <div class="marker"></div>
       </div>
 
@@ -35,6 +35,17 @@
         small
         >
           <p class="button">View ranking</p>
+        </v-btn>
+      </div>
+
+     <!-- モード選択ページ遷移ボタン -->
+     <div class="mt-5">
+        <v-btn
+          href="/modeselection"
+          color="blue-grey"
+          small
+        >
+          <p class="button">Return to mode selection</p>
         </v-btn>
       </div>
 
@@ -120,15 +131,6 @@
         <div>ミスタイプ数: {{ typeMissCount }}問</div>
       </div>
 
-      <v-btn
-        class="mt-5"
-        href="/modeselection"
-        color="blue-grey"
-        small
-      >
-        <p class="button">Return to mode selection</p>
-      </v-btn>
-
     </div>
   </div>
 </template>
@@ -188,148 +190,409 @@ export default class ItTyping extends Vue {
   private scoreS = 280
 
   /** 問題 */
-  private words: Array<{en: string; ja: string}> = [
+  private wordList: Array<{en: string; ja: string}> = [
     {
-      en: 'injekusyonkougeki',
-      ja: 'インジェクション攻撃'
+      en: 'toyotomihideyosi',
+      ja: '豊臣秀吉'
     },
     {
-      en: 'obujekutosikou',
-      ja: 'オブジェクト指向'
+      en: "aruhureddono-beru",
+      ja: "アルフレッドノーベル"
     },
     {
-      en: 'seitekikatadukegengo',
-      ja: '静的型付け言語'
+      en: "akubarutaitei",
+      ja: "アクバル大帝"
     },
     {
-      en: 'yu-za-inta-fe-su',
-      ja: 'ユーザーインターフェース'
+      en: "maia-amusyeruro-tosiruto",
+      ja: "マイアーアムシェルロートシルト"
     },
     {
-      en: 'kihonjouhougijutusyasiken',
-      ja: '基本情報技術者試験'
+      en: "hanmurabiou",
+      ja: "ハンムラビ王"
     },
     {
-      en: 'kurosusaitosukuriputhingu',
-      ja: 'クロスサイトスクリプティング'
+      en: "syarurudogo-ru",
+      ja: "シャルルドゴール"
     },
     {
-      en: 'kurosusaitorikuesutofo-jeri',
-      ja: 'クロスサイトリクエストフォージェリ'
+      en: "aruhureddodaiou",
+      ja: "アルフレッド大王"
     },
     {
-      en: 'sqlinjekusyon',
-      ja: 'SQLインジェクション'
+      en: "ramusesu2sei",
+      ja: "ラムセス２世"
     },
     {
-      en: 'apurike-syonsohuto',
-      ja: 'アプリケーションソフト'
+      en: "gurierumomaruko-ni",
+      ja: "グリエルモマルコーニ"
     },
     {
-      en: 'o-punso-su',
-      ja: 'オープンソース'
+      en: "athirradaiou",
+      ja: "アッティラ大王"
     },
     {
-      en: 'sessyonhaijakku',
-      ja: 'セッションハイジャック'
+      en: "riryuuki",
+      ja: "李隆基"
     },
     {
-      en: 'arugorizumu',
-      ja: 'アルゴリズム'
+      en: "kemaruatatelyurukupasya",
+      ja: "ケマルアタテュルクパシャ"
     },
     {
-      en: 'puroguramingugengo',
-      ja: 'プログラミング言語'
+      en: "aruberutoainsyutainn",
+      ja: "アルベルトアインシュタイン"
     },
     {
-      en: 'ma-kuappugengo',
-      ja: 'マークアップ言語'
+      en: "unubanusu2sei",
+      ja: "ウルバヌス2世"
     },
     {
-      en: 'de-tabe-su',
-      ja: 'データベース'
+      en: "simonboribaru",
+      ja: "シモンボリバル"
     },
     {
-      en: 'burokkuche-n',
-      ja: 'ブロックチェーン'
+      en: "jannnudaruku",
+      ja: "ジャンヌダルク"
     },
     {
-      en: 'javascript',
-      ja: 'JavaScript'
+      en: "edowa-dojennna-",
+      ja: "エドワードジェンナー"
     },
     {
-      en: 'typescript',
-      ja: 'TypeScript'
+      en: "nuruhati",
+      ja: "ヌルハチ"
     },
     {
-      en: 'sisutemuinthigure-ta-',
-      ja: 'システムインティグレーター'
+      en: "kyurosu2sei",
+      ja: "キュロス２世"
     },
     {
-      en: 'indento',
-      ja: 'インデント'
+      en: "pyu-torutaitei",
+      ja: "ピョートル大帝"
     },
     {
-      en: 'faiafo-ru',
-      ja: 'ファイアフォール'
+      en: "nikorausukoperunikusu",
+      ja: "ニコラウスコペルニクス"
     },
     {
-      en: 'toranzakusyon',
-      ja: 'トランザクション'
+      en: "wiriamu1sei",
+      ja: "ウィリアム１世"
     },
     {
-      en: 'ro-dobaransa',
-      ja: 'ロードバランサ'
+      en: "hannnibarubaruka",
+      ja: "ハンニバルバルカ"
     },
     {
-      en: 'hure-muwa-ku',
-      ja: 'フレームワーク'
+      en: "tito-",
+      ja: "チトー"
     },
     {
-      en: 'inta-netto',
-      ja: 'インターネット'
+      en: "feripe2sei",
+      ja: "フェリペ2世"
     },
     {
-      en: 'inhura',
-      ja: 'インフラ'
+      en: "raitokyoudai",
+      ja: "ライト兄弟"
     },
     {
-      en: 'i-sanetto',
-      ja: 'イーサネット'
+      en: "innnokenthiususansei",
+      ja: "インノケンティウス三世"
     },
     {
-      en: 'o-ba-ro-do',
-      ja: 'オーバーロード'
+      en: "cha-ruzuaruja-nonpa-sonzu",
+      ja: "チャールズアルジャーノンパーソンズ"
     },
     {
-      en: 'kueri',
-      ja: 'クエリ'
+      en: "sibasenn",
+      ja: "司馬遷"
     },
     {
-      en: 'sutore-zi',
-      ja: 'ストレージ'
+      en: "herodotosu",
+      ja: "ヘロドトス"
     },
     {
-      en: 'sekyurithiho-ru',
-      ja: 'セキュリティホール'
+      en: "youkenn",
+      ja: "楊堅"
     },
     {
-      en: 'domein',
-      ja: 'ドメイン'
+      en: "assyu-rubaniparuou",
+      ja: "アッシュールバニパル王"
     },
     {
-      en: 'paketto',
-      ja: 'パケット'
+      en: "karakaratei",
+      ja: "カラカラ帝"
     },
     {
-      en: 'purotokoru',
-      ja: 'プロトコル'
+      en: "metterunihi",
+      ja: "メッテルニヒ"
     },
     {
-      en: 'maigure-syon',
-      ja: 'マイグレーション'
+      en: "kureopatora7sei",
+      ja: "クレオパトラ7世"
     },
+    {
+      en: "sonbunn",
+      ja: "孫文"
+    },
+    {
+      en: "hu-go-gurothiusu",
+      ja: "フーゴーグロティウス"
+    },
+    {
+      en: "youdai",
+      ja: "煬帝"
+    },
+    {
+      en: "erizabesu1sei",
+      ja: "エリザベス１世"
+    },
+    {
+      en: "butei",
+      ja: "武帝"
+    },
+    {
+      en: "za-hirubaibarusu",
+      ja: "ザーヒルバイバルス"
+    },
+    {
+      en: "mariaterezia",
+      ja: "マリアテレジア"
+    },
+    {
+      en: "eirakutei",
+      ja: "永楽帝"
+    },
+    {
+      en: "dareiosu1sei",
+      ja: "ダレイオス１世"
+    },
+    {
+      en: "kisou",
+      ja: "徽宗"
+    },
+    {
+      en: "oriba-kuromuwiru",
+      ja: "オリバークロムウェル"
+    },
+    {
+      en: "nikoratesura",
+      ja: "ニコラテスラ"
+    },
+    {
+      en: "seitaikou",
+      ja: "西太后"
+    },
+    {
+      en: "wisutoncha-tiru",
+      ja: "ウィストンチャーチル"
+    },
+    {
+      en: "soronn",
+      ja: "ソロン"
+    },
+    {
+      en: "moutakutou",
+      ja: "毛沢東"
+    },
+    {
+      en: "jonrokku",
+      ja: "ジョンロック"
+    },
+    {
+      en: "tyoukyouinn",
+      ja: "趙匡胤"
+    },
+    {
+      en: "mehumeto2sei",
+      ja: "メフメト２世"
+    },
+    {
+      en: "naporeon3sei",
+      ja: "ナポレオン３世"
+    },
+    {
+      en: "syugensyou",
+      ja: "朱元璋"
+    },
+    {
+      en: "aburahamurinka-nn",
+      ja: "アブラハムリンカーン"
+    },
+    {
+      en: "aizakkunyu-tonn",
+      ja: "アイザックニュートン"
+    },
+    {
+      en: "koubutei",
+      ja: "光武帝"
+    },
+    {
+      en: "yohanesugu-tenberuku",
+      ja: "ヨハネスグーテンベルク"
+    },
+    {
+      en: "sairinn",
+      ja: "蔡倫"
+    },
+    {
+      en: "jo-ziwasintonn",
+      ja: "ジョージワシントン"
+    },
+    {
+      en: "dhiokurethianusutei",
+      ja: "ディオクレティアヌス帝"
+    },
+    {
+      en: "je-muzuwatto",
+      ja: "ジェームズワット"
+    },
+    {
+      en: "hubiraiha-nn",
+      ja: "フビライハーン"
+    },
+    {
+      en: "saradhinn",
+      ja: "サラディン"
+    },
+    {
+      en: "perikuresu",
+      ja: "ペリクレス"
+    },
+    {
+      en: "jonfittujerarudokenedhi",
+      ja: "ジョンフィッツジェラルドケネディ"
+    },
+    {
+      en: "ogotaiha-nn",
+      ja: "オゴタイハーン"
+    },
+    {
+      en: "homerosu",
+      ja: "ホメロス"
+    },
+    {
+      en: "rui14sei",
+      ja: "ルイ14世"
+    },
+    {
+      en: "thimu-ru",
+      ja: "ティムール"
+    },
+    {
+      en: "hurankurinru-zuberuto",
+      ja: "フランクリンルーズベルト"
+    },
+    {
+      en: "urazimi-rure-ninn",
+      ja: "ウラジミールレーニン"
+    },
+    {
+      en: "ryouhou",
+      ja: "劉邦"
+    },
+    {
+      en: "yusuthinianusutei",
+      ja: "ユスティニアヌス帝"
+    },
+    {
+      en: "ka-rutaitei",
+      ja: "カール大帝"
+    },
+    {
+      en: "riseiminn",
+      ja: "李世民"
+    },
+    {
+      en: "sureimantaitei",
+      ja: "スレイマン大帝"
+    },
+    {
+      en: "maruthinruta-",
+      ja: "マルティンルター"
+    },
+    {
+      en: "teodosiusutei",
+      ja: "テオドシウス帝"
+    },
+    {
+      en: "gandhi-",
+      ja: "ガンディー"
+    },
+    {
+      en: "puratonn",
+      ja: "プラトン"
+    },
+    {
+      en: "go-tamasidda-ruta",
+      ja: "ゴータマシッダールタ"
+    },
+    {
+      en: "viruherumu2sei",
+      ja: "ヴィルヘルム2世"
+    },
+    {
+      en: "kurisutofa-koronbusu",
+      ja: "クリストファーコロンブス"
+    },
+    {
+      en: "ka-rumarukusu",
+      ja: "カールマルクス"
+    },
+    {
+      en: "konsutanthinusutei",
+      ja: "コンスタンティヌス帝"
+    },
+    {
+      en: "suta-rinn",
+      ja: "スターリン"
+    },
+    {
+      en: "otto-finbisumaruku",
+      ja: "オットーフォンビスマルク"
+    },
+    {
+      en: "naporeonbonaparuto",
+      ja: "ナポレオンボナパルト"
+    },
+    {
+      en: "yuriusukaesaru",
+      ja: "ユリウスカエサル"
+    },
+    {
+      en: "koukyuu",
+      ja: "孔丘"
+    },
+    {
+      en: "augusutwusu",
+      ja: "アウグストゥス"
+    },
+    {
+      en: "arekusanda-daiou",
+      ja: "アレクサンダー大王"
+    },
+    {
+      en: "sikoutei",
+      ja: "始皇帝"
+    },
+    {
+      en: "adoruhuhitora-",
+      ja: "アドルフヒトラー"
+    },
+    {
+      en: "tingisuha-nn",
+      ja: "チンギスハーン"
+    },
+    {
+      en: "muhanmado",
+      ja: "ムハンマド"
+    },
+    {
+      en: "iesukirisuto",
+      ja: "イエスキリスト"
+    }
   ]
+  private words: Array<{en: string; ja: string}> = this.wordList
 
   /** 回答後の問題 */
   private solvedWords: Array<string> = [];
@@ -377,6 +640,7 @@ export default class ItTyping extends Vue {
     this.rank = 'E'
     this.readFlag = true
     this.timer = this.TIME
+    this.words = this.wordList
     this.countRead()
     window.addEventListener('keypress', this.keyCheck)
   }
@@ -417,7 +681,7 @@ export default class ItTyping extends Vue {
       .add({
         name: this.name,
         score: this.score,
-        mode: 'IT',
+        mode: '世界の偉人',
         rank: this.rank
       })
   }
@@ -435,6 +699,14 @@ export default class ItTyping extends Vue {
   private nextWord(): void {
     this.solvedWords.push(this.currentWord.en as never)
   }
+
+  /** 出題した問題をwordsから削除して二度同じ問題を出題しない様にする */
+  private deleteWord() {
+    this.words = this.words.filter((item) => {
+      return item !== this.currentWord
+    }) 
+  }
+
   /** 入力した文字と問題が同じか確認 */
   private keyCheck(e: any) {
     this.typeCount += 1
@@ -468,6 +740,7 @@ export default class ItTyping extends Vue {
     if (val === this.currentWord.en) {
       this.answers += 1
       this.charIndex = 0
+      this.deleteWord()
       this.nextWord()
     }
   }

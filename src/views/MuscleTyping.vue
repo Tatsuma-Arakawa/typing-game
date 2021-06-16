@@ -38,6 +38,17 @@
         </v-btn>
       </div>
 
+     <!-- モード選択ページ遷移ボタン -->
+     <div class="mt-5">
+        <v-btn
+          href="/modeselection"
+          color="blue-grey"
+          small
+        >
+          <p class="button">Return to mode selection</p>
+        </v-btn>
+      </div>
+
     </div>
 
     <!-- カウントダウン -->
@@ -120,15 +131,6 @@
         <div>ミスタイプ数: {{ typeMissCount }}問</div>
       </div>
 
-      <v-btn
-        class="mt-5"
-        href="/modeselection"
-        color="blue-grey"
-        small
-      >
-        <p class="button">Return to mode selection</p>
-      </v-btn>
-
     </div>
   </div>
 </template>
@@ -188,7 +190,7 @@ export default class ItTyping extends Vue {
   private scoreS = 280
 
   /** 問題 */
-  private words: Array<{en: string; ja: string}> = [
+  private wordList: Array<{en: string; ja: string}> = [
     {
       en: 'daikyoukinn',
       ja: '大胸筋（だいきょうきん）'
@@ -678,6 +680,7 @@ export default class ItTyping extends Vue {
       ja: '背側骨間筋（はいそくこっかんきん）'
     }
   ]
+  private words: Array<{en: string; ja: string}> = this.wordList
 
   /** 回答後の問題 */
   private solvedWords: Array<string> = [];
@@ -725,6 +728,7 @@ export default class ItTyping extends Vue {
     this.rank = 'E'
     this.readFlag = true
     this.timer = this.TIME
+    this.words = this.wordList
     this.countRead()
     window.addEventListener('keypress', this.keyCheck)
   }
@@ -783,6 +787,14 @@ export default class ItTyping extends Vue {
   private nextWord(): void {
     this.solvedWords.push(this.currentWord.en as never)
   }
+
+  /** 出題した問題をwordsから削除して二度同じ問題を出題しない様にする */
+  private deleteWord() {
+    this.words = this.words.filter((item) => {
+      return item !== this.currentWord
+    }) 
+  }
+
   /** 入力した文字と問題が同じか確認 */
   private keyCheck(e: any) {
     this.typeCount += 1
@@ -816,6 +828,7 @@ export default class ItTyping extends Vue {
     if (val === this.currentWord.en) {
       this.answers += 1
       this.charIndex = 0
+      this.deleteWord()
       this.nextWord()
     }
   }

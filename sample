@@ -1,0 +1,1036 @@
+private wordList: Array<{en: string; ja: string}> = [
+  {
+    en: 'injekusyonkougeki',
+    ja: 'インジェクション攻撃'
+  },
+  {
+    en: 'obujekutosikou',
+    ja: 'オブジェクト指向'
+  },
+  {
+    en: 'seitekikatadukegengo',
+    ja: '静的型付け言語'
+  },
+  {
+    en: 'yu-za-inta-fe-su',
+    ja: 'ユーザーインターフェース'
+  },
+  {
+    en: 'kihonjouhougijutusyasikenn',
+    ja: '基本情報技術者試験'
+  },
+  {
+    en: 'kurosusaitosukuriputhingu',
+    ja: 'クロスサイトスクリプティング'
+  },
+  {
+    en: 'kurosusaitorikuesutofo-jeri',
+    ja: 'クロスサイトリクエストフォージェリ'
+  },
+  {
+    en: 'sqlinjekusyonn',
+    ja: 'SQLインジェクション'
+  },
+  {
+    en: 'apurike-syonsohuto',
+    ja: 'アプリケーションソフト'
+  },
+  {
+    en: 'o-punso-su',
+    ja: 'オープンソース'
+  },
+  {
+    en: 'sessyonhaijakku',
+    ja: 'セッションハイジャック'
+  },
+  {
+    en: 'arugorizumu',
+    ja: 'アルゴリズム'
+  },
+  {
+    en: 'puroguramingugengo',
+    ja: 'プログラミング言語'
+  },
+  {
+    en: 'ma-kuappugengo',
+    ja: 'マークアップ言語'
+  },
+  {
+    en: 'de-tabe-su',
+    ja: 'データベース'
+  },
+  {
+    en: 'burokkuche-nn',
+    ja: 'ブロックチェーン'
+  },
+  {
+    en: 'javascript',
+    ja: 'JavaScript'
+  },
+  {
+    en: 'typescript',
+    ja: 'TypeScript'
+  },
+  {
+    en: 'sisutemuinthigure-ta-',
+    ja: 'システムインティグレーター'
+  },
+  {
+    en: 'indento',
+    ja: 'インデント'
+  },
+  {
+    en: 'faiafo-ru',
+    ja: 'ファイアフォール'
+  },
+  {
+    en: 'toranzakusyonn',
+    ja: 'トランザクション'
+  },
+  {
+    en: 'ro-dobaransa',
+    ja: 'ロードバランサ'
+  },
+  {
+    en: 'hure-muwa-ku',
+    ja: 'フレームワーク'
+  },
+  {
+    en: 'inta-netto',
+    ja: 'インターネット'
+  },
+  {
+    en: 'inhura',
+    ja: 'インフラ'
+  },
+  {
+    en: 'i-sanetto',
+    ja: 'イーサネット'
+  },
+  {
+    en: 'o-ba-ro-do',
+    ja: 'オーバーロード'
+  },
+  {
+    en: 'kueri',
+    ja: 'クエリ'
+  },
+  {
+    en: 'sutore-zi',
+    ja: 'ストレージ'
+  },
+  {
+    en: 'sekyurithiho-ru',
+    ja: 'セキュリティホール'
+  },
+  {
+    en: 'domeinn',
+    ja: 'ドメイン'
+  },
+  {
+    en: 'paketto',
+    ja: 'パケット'
+  },
+  {
+    en: 'purotokoru',
+    ja: 'プロトコル'
+  },
+  {
+    en: 'maigure-syonn',
+    ja: 'マイグレーション'
+  },
+]
+
+private wordList: Array<{en: string; ja: string}> = [
+  {
+    en: 'daikyoukinn',
+    ja: '大胸筋（だいきょうきん）'
+  },
+  {
+    en: 'syoukyoukinn',
+    ja: '小胸筋（しょうきょうきん）'
+  },
+  {
+    en: 'sakotukakinn',
+    ja: '鎖骨下筋（さこつかきん）'
+  },
+  {
+    en: 'zenkyokinn',
+    ja: '前鋸筋（ぜんきょきん）'
+  },
+  {
+    en: 'gairokkankinn',
+    ja: '外肋間筋（がいろっかんきん）'
+  },
+  {
+    en: 'nairokkankinn',
+    ja: '内肋間筋（ないろっかんきん）'
+  },
+  {
+    en: 'sainairokkankinn',
+    ja: '最内肋間筋（さいないろっかんきん）'
+  },
+  {
+    en: 'rokukakinn',
+    ja: '肋下筋（ろくかきん）'
+  },
+  {
+    en: 'kyououkinn',
+    ja: '胸横筋（きょうおうきん）'
+  },
+  {
+    en: 'rokkotukyokinn',
+    ja: '肋骨挙筋（ろっこつきょきん）'
+  },
+  {
+    en: 'oukakumaku',
+    ja: '横隔膜（おうかくまく）'
+  },
+  {
+    en: 'hukutyokukinn',
+    ja: '腹直筋（ふくちょくきん）'
+  },  
+  {
+    en: 'suitaikinn',
+    ja: '錐体筋（すいたいきん）'
+  },
+  {
+    en: 'gaihukusyakinn',
+    ja: '外腹斜筋（がいふくしゃきん）'
+  },
+  {
+    en: 'naihukusyakinn',
+    ja: '内腹斜筋（ないふくしゃきん）'
+  },
+  {
+    en: 'hukuoukinn',
+    ja: '腹横筋（ふくおうきん）'
+  },
+  {
+    en: 'youhoukeikinn',
+    ja: '腰方形筋（ようほうけいきん）'
+  },
+  {
+    en: 'souboukinn',
+    ja: '僧帽筋（そうぼうきん）'
+  },
+  {
+    en: 'kouhaikinn',
+    ja: '広背筋（こうはいきん）'
+  },
+  {
+    en: 'syouryoukeikinn',
+    ja: '小菱形筋（しょうりょうけいきん）'
+  },
+  {
+    en: 'dairyoukeikinn',
+    ja: '大菱形筋（だいりょうけいきん）'
+  },
+  {
+    en: 'kenkoukyokinn',
+    ja: '肩甲挙筋（けんこうきょきん）'
+  },
+  {
+    en: 'joukoukyokinn',
+    ja: '上後鋸筋（じょうこうきょきん）'
+  },
+  {
+    en: 'kakoukyokinn',
+    ja: '下後鋸筋（かこうきょきん）'
+  },
+  {
+    en: 'toubanjoukinn',
+    ja: '頭板状筋（とうばんじょうきん）'
+  },
+  {
+    en: 'keibanjoukinn',
+    ja: '頸板状筋（けいばんじょうきん）'
+  },
+  {
+    en: 'tyourokukinn',
+    ja: '腸肋筋（ちょうろくきん）'
+  },
+  {
+    en: 'saityoukinn',
+    ja: '最長筋（さいちょうきん）'
+  },
+  {
+    en: 'kyokukinn',
+    ja: '棘筋（きょくきん）'
+  },
+  {
+    en: 'hankyokukinn',
+    ja: '半棘筋（はんきょくきん）'
+  },
+  {
+    en: 'taretukinn',
+    ja: '多裂筋（たれつきん）'
+  },
+  {
+    en: 'kaisenkinn',
+    ja: '回旋筋（かいせんきん）'
+  },
+  {
+    en: 'sankakukinn',
+    ja: '三角筋（さんかくきん）'
+  },
+  {
+    en: 'syouenkinn',
+    ja: '小円筋（しょうえんきん）'
+  },
+  {
+    en: 'kyokujoukinn',
+    ja: '棘上筋（きょくじょうきん）'
+  },
+  {
+    en: 'kyokukakinn',
+    ja: '棘下筋（きょくかきん）'
+  },
+  {
+    en: 'daienkinn',
+    ja: '大円筋（だいえんきん）'
+  },
+  {
+    en: 'kenkoukakinn',
+    ja: '肩甲下筋（けんこうかきん）'
+  },
+  {
+    en: 'jouwannnitoukinn',
+    ja: '上腕二頭筋（じょうわんにとうきん）'
+  },
+  {
+    en: 'ukouwankinn',
+    ja: '鳥口腕筋（うこうわんきん）'
+  },
+  {
+    en: 'jouwankinn',
+    ja: '上腕筋（じょうわんきん）'
+  },
+  {
+    en: 'jouwansantoukinn',
+    ja: '上腕三頭筋（じょうわんさんとうきん）'
+  },
+  {
+    en: 'tyuukinn',
+    ja: '肘筋（ちゅうきん）'
+  },
+  {
+    en: 'enkainaikinn',
+    ja: '円回内筋（えんかいないきん）'
+  },
+  {
+    en: 'tousokusyukonkukkinn',
+    ja: '橈側手根屈筋（とうそくしゅこんくっきん）'
+  },
+  {
+    en: 'tyousyoukinn',
+    ja: '長掌筋（ちょうしょうきん）'
+  },
+  {
+    en: 'syakusokusyukonkukkinn',
+    ja: '尺側手根屈筋（しゃくそくしゅこんくっきん）'
+  },
+  {
+    en: 'sensikukkinn',
+    ja: '浅指屈筋（せんしくっきん）'
+  },
+  {
+    en: 'sinsikukkinn',
+    ja: '深指屈筋（しんしくっきん）'
+  },
+  {
+    en: 'tyoubosikukkinn',
+    ja: '長母指屈筋（ちょうぼしくっきん）'
+  },
+  {
+    en: 'houkeikainaikinn',
+    ja: '方形回内筋（ほうけいかいないきん）'
+  },
+  {
+    en: 'wantoukoukinn',
+    ja: '腕橈骨筋（わんとうこうきん）'
+  },
+  {
+    en: 'tyoutousokusyukonsinkinn',
+    ja: '長橈側手根伸筋（ちょうとうそくしゅこんしんきん）'
+  },
+  {
+    en: 'tantousokusyukonsinkinn',
+    ja: '短橈側手根伸筋（たんとうそくしゅこんしんきん）'
+  },
+  {
+    en: 'sisinkinn',
+    ja: '指伸筋（ししんきん）'
+  },
+  {
+    en: 'syousisinkinn',
+    ja: '小指伸筋（しょうししんきん）'
+  },
+  {
+    en: 'syakusokusyukonsinkinn',
+    ja: '尺側手根伸筋（しゃくそくしゅこんしんきん）'
+  },
+  {
+    en: 'kaigaikinn',
+    ja: '回外筋（かいがいきん）「'
+  },
+  {
+    en: 'tyoubosigaitenkinn',
+    ja: '長母指外転筋（ちょうぼしがいてんきん）'
+  },
+  {
+    en: 'tanbosisinkinn',
+    ja: '短母指伸筋（たんぼししんきん）'
+  },
+  {
+    en: 'tyoubosisinkinn',
+    ja: '長母指伸筋（ちょうぼししんきん）'
+  },
+  {
+    en: 'zisisinkinn',
+    ja: '示指伸筋（じししんきん）'
+  },
+  {
+    en: 'tanbosigaitenkinn',
+    ja: '短母指外転筋（たんぼしがいてんきん）'
+  },
+  {
+    en: 'tanbosikukkinn',
+    ja: '短母指屈筋（たんぼしくっきん）'
+  },
+  {
+    en: 'bositairitukinn',
+    ja: '母指対立筋（ぼしたいりつきん）'
+  },
+  {
+    en: 'bosinaitenkinn',
+    ja: '母指内転筋（ぼしないてんきん）'
+  },
+  {
+    en: 'tansyoukinn',
+    ja: '短掌筋（たんしょうきん）'
+  },
+  {
+    en: 'syousigaitenkinn',
+    ja: '小指外転勤（しょうしがいてんきん）'
+  },
+  {
+    en: 'tansyousikukkinn',
+    ja: '短小指屈筋（たんしょうしくっきん）'
+  },
+  {
+    en: 'syousitairitukinn',
+    ja: '小指対立筋（しょうしたいりつきん）'
+  },
+  {
+    en: 'tyouyoukinn',
+    ja: '虫様筋（ちゅうようきん）'
+  },
+  {
+    en: 'syousokukokkankinn',
+    ja: '掌側骨間筋（しょうそくこっかんきん）'
+  },
+  {
+    en: 'haisokukokkankinn',
+    ja: '背側骨間筋（はいそくこっかんきん）'
+  },
+  {
+    en: 'tyoukotukinn',
+    ja: '腸骨筋（ちょうこつきん）'
+  },
+  {
+    en: 'daiyoukinn',
+    ja: '大腰筋（だいようきん）'
+  },
+  {
+    en: 'syouyoukinn',
+    ja: '小腰筋（しょうようきん）'
+  },
+  {
+    en: 'daidenkinn',
+    ja: '大臀筋（だいでんきん）'
+  },
+  {
+    en: 'syoudenkinn',
+    ja: '小臀筋（しょうでんきん）'
+  },
+  {
+    en: 'daitaikinmakutyoukinn',
+    ja: '大腿筋膜張筋（だいたいきんまくちょうきん）'
+  },
+  {
+    en: 'rijoukinn',
+    ja: '梨状筋（りじょうきん）'
+  },
+  {
+    en: 'naiheisakinn',
+    ja: '内閉鎖筋（ないへいさきん）'
+  },
+  {
+    en: 'jousousikinn',
+    ja: '上双子筋（じょうそうしきん）'
+  },
+  {
+    en: 'kasousikinn',
+    ja: '下双子筋（かそうしきん）'
+  },
+  {
+    en: 'daitaihoukeikenn',
+    ja: '大腿方形筋（だいたいほうけいきん）'
+  },
+  {
+    en: 'houkoukinn',
+    ja: '縫工筋（ほうこうきん）'
+  },
+  {
+    en: 'daitaityokkinn',
+    ja: '大腿直筋（だいたいちょっきん）'
+  },
+  {
+    en: 'naisokukoukinn',
+    ja: '内側広筋（ないそくこうきん）'
+  },
+  {
+    en: 'tyuukankoukinn',
+    ja: '中間広筋（ちゅうかんこうきん）'
+  },
+  {
+    en: 'gaisokukoukinn',
+    ja: '外側広筋（がいそくこうきん）'
+  },
+  {
+    en: 'tikotukinn',
+    ja: '恥骨筋（ちこつきん）'
+  },
+  {
+    en: 'tyounaitenkinn',
+    ja: '長内転筋（ちょうないてんきん）'
+  },
+  {
+    en: 'tannaitenkinn',
+    ja: '短内転筋（たんないてんきん）'
+  },
+  {
+    en: 'dainaitenkinn',
+    ja: '大内転筋（だいないてんきん）'
+  },
+  {
+    en: 'hakukinn',
+    ja: '薄筋（はくきん）'
+  },
+  {
+    en: 'gaiheisakinn',
+    ja: '外閉鎖筋（がいへいさきん）'
+  },
+  {
+    en: 'daitanitoukinn',
+    ja: '大腿二頭筋（だいたにとうきん）'
+  },
+  {
+    en: 'hankenyoukinn',
+    ja: '半腱様筋（はんけんようきん）'
+  },
+  {
+    en: 'hanmakuyoukinn',
+    ja: '半膜様筋（はんまくようきん）'
+  },
+  {
+    en: 'zenkeikotukinn',
+    ja: '前脛骨筋（ぜんけいこつきん）'
+  },
+  {
+    en: 'tyoubosisinkinn',
+    ja: '長母趾伸筋（ちょうぼししんきん）'
+  },
+  {
+    en: 'tyousisinkinn',
+    ja: '長趾伸筋（ちょうししんきん）'
+  },
+  {
+    en: 'daisanhikotukinn',
+    ja: '第三腓骨筋（だいさんひこつきん）'
+  },
+  {
+    en: 'tyouhikotukinn',
+    ja: '長腓骨筋（ちょうひこつきん）'
+  },
+  {
+    en: 'tanhikotukinn',
+    ja: '短腓骨筋（たんひこつきん）'
+  },
+  {
+    en: 'kataisantoukinn',
+    ja: '下腿三頭筋（かたいさんとうきん）'
+  },
+  {
+    en: 'sokuteikinn',
+    ja: '足低筋（そくていきん）'
+  },
+  {
+    en: 'sikkakinn',
+    ja: '膝窩筋（しっかきん）'
+  },
+  {
+    en: 'koukeikotukinn',
+    ja: '後脛骨筋（こうけいこつきん）'
+  },
+  {
+    en: 'tyousikukkinn',
+    ja: '長趾屈筋（ちょうしくっきん）'
+  },
+  {
+    en: 'tyoubosikukkinn',
+    ja: '長母趾屈筋（ちょうぼしくっきん）'
+  },
+  {
+    en: 'tanbosisinkinn',
+    ja: '短母趾伸筋（たんぼししんきん）'
+  },
+  {
+    en: 'tansisinkinn',
+    ja: '短趾伸筋（たんししんきん）'
+  },
+  {
+    en: 'tanbosikukkinn',
+    ja: '短母趾屈筋（たんぼしくっきん）c'
+  },
+  {
+    en: 'bosinaitenkinn',
+    ja: '母趾内転筋（ぼしないてんきん）'
+  },
+  {
+    en: 'bosigaitenkinn',
+    ja: '母趾外転筋（ぼしがいてんきん）'
+  },
+  {
+    en: 'syousigaitenkinn',
+    ja: '小趾外転筋（しょうしがいてんきん）'
+  },
+  {
+    en: 'tansyousikukkinn',
+    ja: '短小趾屈筋（たんしょうしくっきん）'
+  },
+  {
+    en: 'tansikukkinn',
+    ja: '短趾屈筋（たんしくっきん）'
+  },
+  {
+    en: 'sokuteihoukeikinn',
+    ja: '足底方形筋（そくていほうけいきん）'
+  },
+  {
+    en: 'tyouyoukinn',
+    ja: '虫様筋（ちょうようきん）'
+  },
+  {
+    en: 'teisokukokkankinn',
+    ja: '低側骨間筋（ていそくこっかんきん）'
+  },
+  {
+    en: 'haisokukokkankinn',
+    ja: '背側骨間筋（はいそくこっかんきん）'
+  }
+]
+
+private wordList: Array<{en: string; ja: string}> = [
+  {
+    en: 'toyotomihideyosi',
+    ja: '豊臣秀吉'
+  },
+  {
+    en: "aruhureddono-beru",
+    ja: "アルフレッドノーベル"
+  },
+  {
+    en: "akubarutaitei",
+    ja: "アクバル大帝"
+  },
+  {
+    en: "maia-amusyeruro-tosiruto",
+    ja: "マイアーアムシェルロートシルト"
+  },
+  {
+    en: "hanmurabiou",
+    ja: "ハンムラビ王"
+  },
+  {
+    en: "syarurudogo-ru",
+    ja: "シャルルドゴール"
+  },
+  {
+    en: "aruhureddodaiou",
+    ja: "アルフレッド大王"
+  },
+  {
+    en: "ramusesu2sei",
+    ja: "ラムセス２世"
+  },
+  {
+    en: "gurierumomaruko-ni",
+    ja: "グリエルモマルコーニ"
+  },
+  {
+    en: "athirradaiou",
+    ja: "アッティラ大王"
+  },
+  {
+    en: "riryuuki",
+    ja: "李隆基"
+  },
+  {
+    en: "kemaruatatelyurukupasya",
+    ja: "ケマルアタテュルクパシャ"
+  },
+  {
+    en: "aruberutoainsyutainn",
+    ja: "アルベルトアインシュタイン"
+  },
+  {
+    en: "unubanusu2sei",
+    ja: "ウルバヌス2世"
+  },
+  {
+    en: "simonboribaru",
+    ja: "シモンボリバル"
+  },
+  {
+    en: "jannnudaruku",
+    ja: "ジャンヌダルク"
+  },
+  {
+    en: "edowa-dojennna-",
+    ja: "エドワードジェンナー"
+  },
+  {
+    en: "nuruhati",
+    ja: "ヌルハチ"
+  },
+  {
+    en: "kyurosu2sei",
+    ja: "キュロス２世"
+  },
+  {
+    en: "pyu-torutaitei",
+    ja: "ピョートル大帝"
+  },
+  {
+    en: "nikorausukoperunikusu",
+    ja: "ニコラウスコペルニクス"
+  },
+  {
+    en: "wiriamu1sei",
+    ja: "ウィリアム１世"
+  },
+  {
+    en: "hannnibarubaruka",
+    ja: "ハンニバルバルカ"
+  },
+  {
+    en: "tito-",
+    ja: "チトー"
+  },
+  {
+    en: "feripe2sei",
+    ja: "フェリペ2世"
+  },
+  {
+    en: "raitokyoudai",
+    ja: "ライト兄弟"
+  },
+  {
+    en: "innnokenthiususansei",
+    ja: "インノケンティウス三世"
+  },
+  {
+    en: "cha-ruzuaruja-nonpa-sonzu",
+    ja: "チャールズアルジャーノンパーソンズ"
+  },
+  {
+    en: "sibasenn",
+    ja: "司馬遷"
+  },
+  {
+    en: "herodotosu",
+    ja: "ヘロドトス"
+  },
+  {
+    en: "youkenn",
+    ja: "楊堅"
+  },
+  {
+    en: "assyu-rubaniparuou",
+    ja: "アッシュールバニパル王"
+  },
+  {
+    en: "karakaratei",
+    ja: "カラカラ帝"
+  },
+  {
+    en: "metterunihi",
+    ja: "メッテルニヒ"
+  },
+  {
+    en: "kureopatora7sei",
+    ja: "クレオパトラ7世"
+  },
+  {
+    en: "sonbunn",
+    ja: "孫文"
+  },
+  {
+    en: "hu-go-gurothiusu",
+    ja: "フーゴーグロティウス"
+  },
+  {
+    en: "youdai",
+    ja: "煬帝"
+  },
+  {
+    en: "erizabesu1sei",
+    ja: "エリザベス１世"
+  },
+  {
+    en: "butei",
+    ja: "武帝"
+  },
+  {
+    en: "za-hirubaibarusu",
+    ja: "ザーヒルバイバルス"
+  },
+  {
+    en: "mariaterezia",
+    ja: "マリアテレジア"
+  },
+  {
+    en: "eirakutei",
+    ja: "永楽帝"
+  },
+  {
+    en: "dareiosu1sei",
+    ja: "ダレイオス１世"
+  },
+  {
+    en: "kisou",
+    ja: "徽宗"
+  },
+  {
+    en: "oriba-kuromuwiru",
+    ja: "オリバークロムウェル"
+  },
+  {
+    en: "nikoratesura",
+    ja: "ニコラテスラ"
+  },
+  {
+    en: "seitaikou",
+    ja: "西太后"
+  },
+  {
+    en: "wisutoncha-tiru",
+    ja: "ウィストンチャーチル"
+  },
+  {
+    en: "soronn",
+    ja: "ソロン"
+  },
+  {
+    en: "moutakutou",
+    ja: "毛沢東"
+  },
+  {
+    en: "jonrokku",
+    ja: "ジョンロック"
+  },
+  {
+    en: "tyoukyouinn",
+    ja: "趙匡胤"
+  },
+  {
+    en: "mehumeto2sei",
+    ja: "メフメト２世"
+  },
+  {
+    en: "naporeon3sei",
+    ja: "ナポレオン３世"
+  },
+  {
+    en: "syugensyou",
+    ja: "朱元璋"
+  },
+  {
+    en: "aburahamurinka-nn",
+    ja: "アブラハムリンカーン"
+  },
+  {
+    en: "aizakkunyu-tonn",
+    ja: "アイザックニュートン"
+  },
+  {
+    en: "koubutei",
+    ja: "光武帝"
+  },
+  {
+    en: "yohanesugu-tenberuku",
+    ja: "ヨハネスグーテンベルク"
+  },
+  {
+    en: "sairinn",
+    ja: "蔡倫"
+  },
+  {
+    en: "jo-ziwasintonn",
+    ja: "ジョージワシントン"
+  },
+  {
+    en: "dhiokurethianusutei",
+    ja: "ディオクレティアヌス帝"
+  },
+  {
+    en: "je-muzuwatto",
+    ja: "ジェームズワット"
+  },
+  {
+    en: "hubiraiha-nn",
+    ja: "フビライハーン"
+  },
+  {
+    en: "saradhinn",
+    ja: "サラディン"
+  },
+  {
+    en: "perikuresu",
+    ja: "ペリクレス"
+  },
+  {
+    en: "jonfittujerarudokenedhi",
+    ja: "ジョンフィッツジェラルドケネディ"
+  },
+  {
+    en: "ogotaiha-nn",
+    ja: "オゴタイハーン"
+  },
+  {
+    en: "homerosu",
+    ja: "ホメロス"
+  },
+  {
+    en: "rui14sei",
+    ja: "ルイ14世"
+  },
+  {
+    en: "thimu-ru",
+    ja: "ティムール"
+  },
+  {
+    en: "hurankurinru-zuberuto",
+    ja: "フランクリンルーズベルト"
+  },
+  {
+    en: "urazimi-rure-ninn",
+    ja: "ウラジミールレーニン"
+  },
+  {
+    en: "ryouhou",
+    ja: "劉邦"
+  },
+  {
+    en: "yusuthinianusutei",
+    ja: "ユスティニアヌス帝"
+  },
+  {
+    en: "ka-rutaitei",
+    ja: "カール大帝"
+  },
+  {
+    en: "riseiminn",
+    ja: "李世民"
+  },
+  {
+    en: "sureimantaitei",
+    ja: "スレイマン大帝"
+  },
+  {
+    en: "maruthinruta-",
+    ja: "マルティンルター"
+  },
+  {
+    en: "teodosiusutei",
+    ja: "テオドシウス帝"
+  },
+  {
+    en: "gandhi-",
+    ja: "ガンディー"
+  },
+  {
+    en: "puratonn",
+    ja: "プラトン"
+  },
+  {
+    en: "go-tamasidda-ruta",
+    ja: "ゴータマシッダールタ"
+  },
+  {
+    en: "viruherumu2sei",
+    ja: "ヴィルヘルム2世"
+  },
+  {
+    en: "kurisutofa-koronbusu",
+    ja: "クリストファーコロンブス"
+  },
+  {
+    en: "ka-rumarukusu",
+    ja: "カールマルクス"
+  },
+  {
+    en: "konsutanthinusutei",
+    ja: "コンスタンティヌス帝"
+  },
+  {
+    en: "suta-rinn",
+    ja: "スターリン"
+  },
+  {
+    en: "otto-finbisumaruku",
+    ja: "オットーフォンビスマルク"
+  },
+  {
+    en: "naporeonbonaparuto",
+    ja: "ナポレオンボナパルト"
+  },
+  {
+    en: "yuriusukaesaru",
+    ja: "ユリウスカエサル"
+  },
+  {
+    en: "koukyuu",
+    ja: "孔丘"
+  },
+  {
+    en: "augusutwusu",
+    ja: "アウグストゥス"
+  },
+  {
+    en: "arekusanda-daiou",
+    ja: "アレクサンダー大王"
+  },
+  {
+    en: "sikoutei",
+    ja: "始皇帝"
+  },
+  {
+    en: "adoruhuhitora-",
+    ja: "アドルフヒトラー"
+  },
+  {
+    en: "tingisuha-nn",
+    ja: "チンギスハーン"
+  },
+  {
+    en: "muhanmado",
+    ja: "ムハンマド"
+  },
+  {
+    en: "iesukirisuto",
+    ja: "イエスキリスト"
+  }
+]
