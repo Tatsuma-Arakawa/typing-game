@@ -384,7 +384,7 @@ export default class ItTyping extends Vue {
       ja: 'HTML'
     },
     {
-      en: 'cssd',
+      en: 'css',
       ja: 'CSS'
     },
     {
@@ -442,6 +442,78 @@ export default class ItTyping extends Vue {
     {
       en: 'next.js',
       ja: 'Next.js'
+    },
+    {
+      en: 'nettowa-ku',
+      ja: 'ネットワーク'
+    },
+    {
+      en: 'ipadoresu',
+      ja: 'IPアドレス'
+    },
+    {
+      en: 'tantaitesuto',
+      ja: '単体テスト'
+    },
+    {
+      en: 'tougoutesuto',
+      ja: '結合テスト'
+    },
+    {
+      en: 'sougoutesuto',
+      ja: '総合テスト'
+    },
+    {
+      en: 'dhirekutori',
+      ja: 'ディレクトリ'
+    },
+    {
+      en: 'zettaipasu',
+      ja: '絶対パス'
+    },
+    {
+      en: 'soutaipasu',
+      ja: '相対パス'
+    },
+    {
+      en: 'api',
+      ja: 'API'
+    },
+    {
+      en: 'ebidensu',
+      ja: 'エビデンス'
+    },
+    {
+      en: 'sukuriputo',
+      ja: 'スクリプト'
+    },
+    {
+      en: 'cpu',
+      ja: 'CPU'
+    },
+    {
+      en: 'sutore-zi',
+      ja: 'ストレージ'
+    },
+    {
+      en: 'memori',
+      ja: 'メモリ'
+    },
+    {
+      en: 'linux',
+      ja: 'Linux'
+    },
+    {
+      en: 'docker',
+      ja: 'Docker'
+    },
+    {
+      en: 'kontena',
+      ja: 'コンテナ'
+    },
+    {
+      en: 'xml',
+      ja: 'XML'
     },
   ]
   private words: Array<{en: string; ja: string}> = this.wordList
@@ -549,6 +621,9 @@ export default class ItTyping extends Vue {
 
   /** 次の問題 */
   private nextWord(): void {
+    if (this.words.length == 1) {
+      this.words = this.wordList
+    }
     this.solvedWords.push(this.currentWord.en as never)
   }
 

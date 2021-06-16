@@ -785,6 +785,9 @@ export default class ItTyping extends Vue {
 
   /** 次の問題 */
   private nextWord(): void {
+    if (this.words.length == 1) {
+      this.words = this.wordList
+    }
     this.solvedWords.push(this.currentWord.en as never)
   }
 
