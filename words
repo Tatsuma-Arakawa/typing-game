@@ -139,6 +139,190 @@ private wordList: Array<{en: string; ja: string}> = [
     en: 'maigure-syonn',
     ja: 'マイグレーション'
   },
+  {
+    en: 'ajairukaihatu',
+    ja: 'アジャイル開発'
+  },
+  {
+    en: 'who-ta-fo-ru',
+    ja: 'ウォーターフォール'
+  },
+  {
+    en: 'aws',
+    ja: 'AWS'
+  },
+  {
+    en: 'ses',
+    ja: 'SES'
+  },
+  {
+    en: 'os',
+    ja: 'OS'
+  },
+  {
+    en: 'debaggu',
+    ja: 'デバッグ'
+  },
+  {
+    en: 'patti',
+    ja: 'パッチ'
+  },
+  {
+    en: 'hurontoendo',
+    ja: 'フロントエンド'
+  },
+  {
+    en: 'bakkuendo',
+    ja: 'バッグエンド'
+  },
+  {
+    en: 'raiburari',
+    ja: 'ライブラリ'
+  },
+  {
+    en: 'ro-rubakku',
+    ja: 'ロールバック'
+  },
+  {
+    en: 'a-kitekucha-',
+    ja: 'アーキテクチャー'
+  },
+  {
+    en: 'html',
+    ja: 'HTML'
+  },
+  {
+    en: 'css',
+    ja: 'CSS'
+  },
+  {
+    en: 'moju-ru',
+    ja: 'モジュール'
+  },
+  {
+    en: 'waiya-hure-mu',
+    ja: 'ワイヤーフレーム'
+  },
+  {
+    en: 'firebase',
+    ja: 'Firebase'
+  },
+  {
+    en: 'php',
+    ja: 'PHP'
+  },
+  {
+    en: 'python',
+    ja: 'Python'
+  },
+  {
+    en: 'go',
+    ja: 'GO'
+  },
+  {
+    en: 'kotlin',
+    ja: 'Kotlin'
+  },
+  {
+    en: 'swift',
+    ja: 'Swift'
+  },
+  {
+    en: 'node.js',
+    ja: 'Node.js'
+  },
+  {
+    en: 'express.js',
+    ja: 'Express.js'
+  },
+  {
+    en: 'nest.js',
+    ja: 'Nest.js'
+  },
+  {
+    en: 'vue.js',
+    ja: 'Vue.js'
+  },
+  {
+    en: 'react.js',
+    ja: 'React.js'
+  },
+  {
+    en: 'next.js',
+    ja: 'Next.js'
+  },
+  {
+    en: 'nettowa-ku',
+    ja: 'ネットワーク'
+  },
+  {
+    en: 'ipadoresu',
+    ja: 'IPアドレス'
+  },
+  {
+    en: 'tantaitesuto',
+    ja: '単体テスト'
+  },
+  {
+    en: 'tougoutesuto',
+    ja: '結合テスト'
+  },
+  {
+    en: 'sougoutesuto',
+    ja: '総合テスト'
+  },
+  {
+    en: 'dhirekutori',
+    ja: 'ディレクトリ'
+  },
+  {
+    en: 'zettaipasu',
+    ja: '絶対パス'
+  },
+  {
+    en: 'soutaipasu',
+    ja: '相対パス'
+  },
+  {
+    en: 'api',
+    ja: 'API'
+  },
+  {
+    en: 'ebidensu',
+    ja: 'エビデンス'
+  },
+  {
+    en: 'sukuriputo',
+    ja: 'スクリプト'
+  },
+  {
+    en: 'cpu',
+    ja: 'CPU'
+  },
+  {
+    en: 'sutore-zi',
+    ja: 'ストレージ'
+  },
+  {
+    en: 'memori',
+    ja: 'メモリ'
+  },
+  {
+    en: 'linux',
+    ja: 'Linux'
+  },
+  {
+    en: 'docker',
+    ja: 'Docker'
+  },
+  {
+    en: 'kontena',
+    ja: 'コンテナ'
+  },
+  {
+    en: 'xml',
+    ja: 'XML'
+  },
 ]
 
 private wordList: Array<{en: string; ja: string}> = [
