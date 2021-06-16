@@ -20,7 +20,7 @@ import Header from './components/Header.vue';
 export default class App extends Vue{
   private createTitileDesc(routeInstance: any) {
     if(routeInstance.meta.title) {
-      let setTitle = routeInstance.meta.title + ' | Typing Game';
+      let setTitle = routeInstance.meta.title + ' - Typing Game';
       document.title = setTitle;
     } else {
       document.title = 'Typing Game'
