@@ -2,7 +2,7 @@
   <div class="toolbar">
     <v-toolbar class="aaa" color="#f0f8ff" flat>
       <v-toolbar-title class="title">
-        Typing Game
+        <a href="/">Typing Game</a>
       </v-toolbar-title>
     </v-toolbar>
   </div>
@@ -20,7 +20,10 @@ export default class Header extends Vue{}
 }
 
 .title {
-  color: #202020;
-  font-weight: 600;
+  a {
+    text-decoration: none;
+    color: #202020;
+    font-weight: 600;
+  }
 }
 </style>
