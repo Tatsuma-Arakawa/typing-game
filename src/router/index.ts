@@ -11,11 +11,6 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   {
-    path: '/modeselection',
-    name: 'ModeSelection',
-    component: () => import('../views/ModeSelection.vue')
-  },
-  {
     path: '/ittyping',
     name: 'ItTyping',
     component: () => import('../views/ItTyping.vue')

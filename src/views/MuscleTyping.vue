@@ -41,7 +41,7 @@
      <!-- モード選択ページ遷移ボタン -->
      <div class="mt-5">
         <v-btn
-          href="/modeselection"
+          href="/"
           color="blue-grey"
           small
         >

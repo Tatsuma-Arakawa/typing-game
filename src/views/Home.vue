@@ -1,15 +1,29 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <v-col cols="12">
-        <div class="mt-16">
-          <v-btn
-            href="/modeselection"
-            color="blue-grey"
-          >
-            <p class="button">Start the game</p>
-          </v-btn>
-        </div>
+      <v-col cols="4" class="mt-12">
+        <v-btn
+          href="/ittyping"
+          color="blue-grey"
+        >
+          <p class="button">Play ITモード</p>
+        </v-btn>
+      </v-col>
+      <v-col cols="4" class="mt-12">
+        <v-btn
+         href="/greatemantyping"
+         color="blue-grey"
+        >
+          <p class="button">Play 世界の偉人モード</p>
+        </v-btn>
+      </v-col>
+      <v-col cols="4" class="mt-12"> 
+        <v-btn
+         href="/muscletyping"
+         color="blue-grey"
+        >
+          <p class="button">Play 筋肉モード</p>
+        </v-btn>
       </v-col>
       <v-col cols="6" class="mt-10">
         <div>

@@ -41,7 +41,7 @@
      <!-- モード選択ページ遷移ボタン -->
      <div class="mt-5">
         <v-btn
-          href="/modeselection"
+          href="/"
           color="blue-grey"
           small
         >
@@ -330,6 +330,50 @@ export default class ItTyping extends Vue {
     {
       en: 'maigure-syonn',
       ja: 'マイグレーション'
+    },
+    {
+      en: 'ajairukaihatu',
+      ja: 'アジャイル開発'
+    },
+    {
+      en: 'who-ta-fo-ru',
+      ja: 'ウォーターフォール'
+    },
+    {
+      en: 'aws',
+      ja: 'AWS'
+    },
+    {
+      en: 'ses',
+      ja: 'SES'
+    },
+    {
+      en: 'os',
+      ja: 'OS'
+    },
+    {
+      en: 'debaggu',
+      ja: 'デバッグ'
+    },
+    {
+      en: 'patti',
+      ja: 'パッチ'
+    },
+    {
+      en: 'hurontoendo',
+      ja: 'フロントエンド'
+    },
+    {
+      en: 'bakkuendo',
+      ja: 'バッグエンド'
+    },
+    {
+      en: 'raiburari',
+      ja: 'ライブラリ'
+    },
+    {
+      en: 'ro-rubakku',
+      ja: 'ロールバック'
     },
   ]
   private words: Array<{en: string; ja: string}> = this.wordList
