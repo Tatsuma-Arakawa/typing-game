@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import Header from './components/Header.vue';
 
 @Component({
@@ -17,7 +17,26 @@ import Header from './components/Header.vue';
   },
 })
 
-export default class App extends Vue{}
+export default class App extends Vue{
+  private createTitileDesc(routeInstance: any) {
+    if(routeInstance.meta.title) {
+      let setTitle = routeInstance.meta.title + ' | Typing Game';
+      document.title = setTitle;
+    } else {
+      document.title = 'Typing Game'
+    }
+  }
+
+  private mounted() {
+    let routeInstance = this.$route;
+    this.createTitileDesc(routeInstance)
+  }
+
+  @Watch('$route')
+  route(routeInstance: any) {
+    this.createTitileDesc(routeInstance)
+  }
+}
 </script>
 <style lang="scss">
 #app {
