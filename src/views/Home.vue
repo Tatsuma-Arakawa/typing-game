@@ -40,7 +40,7 @@
               ・Bランク: 180pt〜229pt<br>
               ・Cランク: 130pt〜179pt<br>
               ・Dランク: 80pt〜129pt<br>
-              ・Eランク: 0pt〜79pts<br>
+              ・Eランク: 〜79pts<br>
             </p>
           </v-card>
         </div>
