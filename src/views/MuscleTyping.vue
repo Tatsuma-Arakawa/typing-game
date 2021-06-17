@@ -421,7 +421,7 @@ export default class ItTyping extends Vue {
     },
     {
       en: 'kaigaikinn',
-      ja: '回外筋（かいがいきん）「'
+      ja: '回外筋（かいがいきん）'
     },
     {
       en: 'tyoubosigaitenkinn',
@@ -641,7 +641,7 @@ export default class ItTyping extends Vue {
     },
     {
       en: 'tanbosikukkinn',
-      ja: '短母趾屈筋（たんぼしくっきん）c'
+      ja: '短母趾屈筋（たんぼしくっきん）'
     },
     {
       en: 'bosinaitenkinn',
