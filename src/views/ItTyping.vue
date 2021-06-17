@@ -587,8 +587,6 @@ export default class ItTyping extends Vue {
 
   /** ゲーム終了後 */
   private result(): void {
-    this.resultFlag = true
-    this.startFlag = false
     if (this.score >= this.scoreD) {
       this.rank = this.rankD
     } if (this.score >= this.scoreC) {
@@ -608,6 +606,8 @@ export default class ItTyping extends Vue {
         mode: 'IT',
         rank: this.rank
       })
+    this.resultFlag = true
+    this.startFlag = false
   }
 
   /** ランダムで問題を出題する */
