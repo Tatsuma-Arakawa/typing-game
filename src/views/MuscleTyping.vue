@@ -730,10 +730,9 @@ export default class ItTyping extends Vue {
     this.timer = this.TIME
     this.words = this.wordList
     this.countRead()
-    window.addEventListener('keypress', this.keyCheck)
   }
 
-  /** ゲームスタートカウントダウン */
+  /** ゲームスタートまでのカウントダウン */
   countRead(): void {
     if (!this.readFlag) {
       return
@@ -745,33 +744,9 @@ export default class ItTyping extends Vue {
       this.readFlag = false
       this.readTime = this.READ
       this.startFlag = true
+      window.addEventListener('keypress', this.keyCheck)
       this.countDown()
     }
-  }
-
-  /** ゲーム終了後 */
-  private result(): void {
-    if (this.score >= this.scoreD) {
-      this.rank = this.rankD
-    } if (this.score >= this.scoreC) {
-      this.rank = this.rankD
-    } if (this.score >= this.scoreB) {
-      this.rank = this.rankB
-    } if (this.score >= this.scoreA) {
-      this.rank = this.rankA
-    } if (this.score >= this.scoreS) {
-      this.rank = this.rankS
-    }
-    /** firestoreに情報を追加 */
-    db.collection('results')
-      .add({
-        name: this.name,
-        score: this.score,
-        mode: '筋肉',
-        rank: this.rank
-      })
-    this.resultFlag = true
-    this.startFlag = false
   }
 
   /** ランダムで問題を出題する */
@@ -857,8 +832,34 @@ export default class ItTyping extends Vue {
     setTimeout(this.countDown, 1000)
     if (this.timer <= 0) {
       clearInterval
+      window.removeEventListener('keypress', this.keyCheck)
       this.result();
     }
+  }
+
+  /** ゲーム終了後 */
+  private result(): void {
+    if (this.score >= this.scoreD) {
+      this.rank = this.rankD
+    } if (this.score >= this.scoreC) {
+      this.rank = this.rankD
+    } if (this.score >= this.scoreB) {
+      this.rank = this.rankB
+    } if (this.score >= this.scoreA) {
+      this.rank = this.rankA
+    } if (this.score >= this.scoreS) {
+      this.rank = this.rankS
+    }
+    /** firestoreに情報を追加 */
+    db.collection('results')
+      .add({
+        name: this.name,
+        score: this.score,
+        mode: '筋肉',
+        rank: this.rank
+      })
+    this.resultFlag = true
+    this.startFlag = false
   }
 
   /** ミス音 */
