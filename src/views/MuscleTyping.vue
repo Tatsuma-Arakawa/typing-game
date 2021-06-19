@@ -2,39 +2,41 @@
   <div class="container">
   
     <!-- スタート前 -->
-    <div v-if="startFlag!=true" class="mt-10">
+    <div v-if="titleFlag" class="mt-10">
       <div class="title mt-5">
         <h1>筋肉モード</h1>
         <div class="marker"></div>
       </div>
 
       <!-- スタートボタン -->
-      <div>
-        <v-btn
+      <v-btn
         class="startButton mt-10"
         @click="gameStart"
         color="blue-grey"
-        >
-          <p>Click to start</p>
-        </v-btn>
-      </div>
+      >
+        <p>クリックでスタート</p>
+      </v-btn>
 
       <!-- 名前入力欄 -->
-      <v-text-field
-        class="name-text-field mt-10"
-        label="Your name"
-        v-model="name"
-      >
-      </v-text-field>
+      <v-form ref="form" v-model="valid">
+        <v-text-field
+          class="name-text-field mt-10"
+          label="名前"
+          v-model="name"
+          :rules="rules"
+          counter="10"
+        >
+        </v-text-field>
+      </v-form>
 
       <!-- ランキングページ遷移ボタン -->
       <div class="mt-5">
         <v-btn
-        href="/result"
-        color="blue-grey"
-        small
+          href="/result"
+          color="blue-grey"
+          small
         >
-          <p class="button">View ranking</p>
+          <p class="button">ランキング</p>
         </v-btn>
       </div>
 
@@ -45,14 +47,14 @@
           color="blue-grey"
           small
         >
-          <p class="button">Return to mode selection</p>
+          <p class="button">モード選択に戻る</p>
         </v-btn>
       </div>
 
     </div>
 
     <!-- カウントダウン -->
-    <div v-if="readFlag">
+    <div v-if="readFlag" class="mt-16">
       <p class="count-down-number">{{ readTime }}</p>
     </div>
 
@@ -73,14 +75,14 @@
       <div>
         <p class="word">
           <span class="transparent">{{ clearAnswer }}</span>
-          <span class="underline">{{ nowAnswer }}</span>
+          <span class="entering">{{ nowAnswer }}</span>
           <span>{{ notAnswer }}</span>
         </p>
       </div>
 
       <!-- 残り時間 -->
       <div class="mt-10">
-        <div>制限時間：残り{{ timer }}秒</div>
+        <div class="font-size-large">制限時間：残り<span :class="{ fontRed: isFontRed }">{{ timer }}</span>秒</div>
       </div>
 
       <!-- スコア -->
@@ -89,9 +91,16 @@
       </div>
       
     </div>
+  
+    <!-- finish -->
+    <div v-if="finishFlag"> 
+      <div class="mt-16">
+        <p class="finish-font">終了!!</p>
+      </div>
+    </div>
 
     <!-- ゲーム終了時に表示する部分 -->
-    <div v-if="resultFlag" class="mt-10">
+    <div v-if="resultFlag" class="mt-5">
 
       <!-- ランク -->
       <div class="font-weight-bold rank-font">
@@ -104,15 +113,17 @@
       </div>
       <div class="font-weight-bold rank-font">
         <div v-if="scores.findIndex((item) => this.score > item) == -1">
-          ランキング: {{ scores.length + 1 }}位
+          ランキング: {{ scores.length + 1 }}位<br>
+          ({{ scores.length + 1 }}人中)
         </div>
         <div v-else>
-          ランキング: {{ scores.findIndex((item) => this.score > item) + 1 }}位
+          ランキング: {{ scores.findIndex((item) => this.score > item) + 1 }}位<br>
+          ({{ scores.length + 1 }}人中)
         </div>
       </div>
 
       <!-- スコア -->
-      <div class="mt-10">
+      <div class="mt-5">
         <div>スコア: {{ score }}</div>
       </div>
 
@@ -131,36 +142,84 @@
         <div>ミスタイプ数: {{ typeMissCount }}問</div>
       </div>
 
+      <!-- リプレイボタン -->
+      <div class="mt-5">
+        <v-btn
+          @click="reload()"
+          color="blue-grey"
+          small
+        >
+          <p class="button">もう一度プレイする</p>
+        </v-btn>
+      </div>
+
+      <!-- ランキングページ遷移ボタン -->
+      <div class="mt-5">
+        <v-btn
+          href="/result"
+          color="blue-grey"
+          small
+        >
+          <p class="button">ランキング</p>
+        </v-btn>
+      </div>
+
+     <!-- モード選択ページ遷移ボタン -->
+      <div class="mt-5">
+        <v-btn
+          href="/"
+          color="blue-grey"
+          small
+        >
+          <p class="button">モード選択に戻る</p>
+        </v-btn>
+    </div>
+
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch, Ref } from 'vue-property-decorator';
 import db from '@/plugins/firestore'
+import { VForm } from '@/main';
+
 
 @Component({})
 
 export default class ItTyping extends Vue {
+  /** タイトル */
+  private titleFlag = true
+
   /** ゲームスタート */
-  private startFlag = false;
+  private startFlag = false
 
   /** カウントダウン */
-  private readFlag = false;
+  private readFlag = false
+  
+  /** ゲーム終了 */
+  private finishFlag = false
 
   /** 結果 */
   private resultFlag = false
 
   /** 回答数 */
-  private answers = 0;
+  private answers = 0
 
   /** 制限時間 */
   private TIME = 61
-  private timer: number = this.TIME;
+  private timer: number = this.TIME
+
+  /** 残り時間短くなると数字が赤くなる */
+  private isFontRed = false
 
   /** ゲームスタートカウントダウン */
-  private READ = 4;
-  private readTime: number = this.READ;
+  private READ = 4
+  private readTime: number = this.READ
+
+  /** 終了の文字表示時間 */
+  private FINISH = 3
+  private finishTime: number = this.FINISH
 
   /** ランク */
   private rank = 'E'
@@ -710,26 +769,43 @@ export default class ItTyping extends Vue {
         })
       })
   }
-  private created (): void {
+  private created(): void {
     this.read()
   }
 
   /** スコアの配列 */
   private scores: Array<number> = this.results.map(item => item.data.score)
+
+  /** 名前バリデーション */
+  private rules = [
+    (v: string) => v.length <= 10 || '10文字以内で入力してください',
+    (v: string) => !!v || '必ず入力してください',
+  ]
+  @Ref("form") readonly form!: VForm;
+
+  /** 名前のバリデーションが通ったかどうかのフラグ */
+  private valid = false
  
   /** ゲームスタート */
   private gameStart(): void {
-    this.solvedWords = [];
-    this.answers = 0
-    this.typeCount = 0
-    this.typeMissCount = 0
-    this.charIndex = 0
-    this.resultFlag = false
-    this.rank = 'E'
-    this.readFlag = true
-    this.timer = this.TIME
-    this.words = this.wordList
-    this.countRead()
+    if (this.form.validate()) {
+      this.titleFlag = false
+      this.resultFlag = false
+      this.readFlag = true
+      this.finishFlag = false
+      this.isFontRed = false
+      this.solvedWords = []
+      this.answers = 0
+      this.typeCount = 0
+      this.typeMissCount = 0
+      this.charIndex = 0
+      this.rank = 'E'
+      this.timer = this.TIME
+      this.readTime = this.READ
+      this.finishTime = this.FINISH
+      this.words = this.wordList
+      this.countRead()
+    }
   }
 
   /** ゲームスタートまでのカウントダウン */
@@ -740,7 +816,6 @@ export default class ItTyping extends Vue {
     this.readTime -= 1
     setTimeout(this.countRead, 1000)
     if (this.readTime <= 0) {
-      clearInterval
       this.readFlag = false
       this.readTime = this.READ
       this.startFlag = true
@@ -817,21 +892,24 @@ export default class ItTyping extends Vue {
   }
 
   /** スコア */
-    get score(): number {
+  private get score(): number {
     return Math.round(
       (this.typeCount - (this.typeMissCount * 2))
     )
   }
 
   /** タイマー */
-  countDown(): void {
+  private countDown(): void {
     if (!this.startFlag) {
       return
     }
     this.timer -= 1
     setTimeout(this.countDown, 1000)
+    if (this.timer <= 10) {
+      this.isFontRed = true
+    }
     if (this.timer <= 0) {
-      clearInterval
+      this.timer = this.TIME
       window.removeEventListener('keypress', this.keyCheck)
       this.result();
     }
@@ -858,8 +936,29 @@ export default class ItTyping extends Vue {
         mode: '筋肉',
         rank: this.rank
       })
-    this.resultFlag = true
     this.startFlag = false
+    this.finishFlag = true
+    this.finishSound();
+    this.finish();
+  }
+
+  /** Finish */
+  private finish(): void {
+    if (!this.finishFlag) {
+      return
+    }
+    this.finishTime -= 1
+    setTimeout(this.finish, 1000)
+    if (this.finishTime <= 0) {
+      this.finishFlag = false
+      this.resultFlag = true
+      this.finishTime = this.FINISH
+    }
+  }
+
+  /** リロード */
+  private reload(): void {
+    location.reload();
   }
 
   /** ミス音 */
@@ -873,6 +972,13 @@ export default class ItTyping extends Vue {
   private typeSound(): void {
     const audioElem = new Audio();
     audioElem.src = "決定、ボタン押下31.mp3";
+    audioElem.play();
+  }
+
+  /** 終了音 */
+  private finishSound(): void {
+    const audioElem = new Audio();
+    audioElem.src = "和太鼓でドドン.mp3";
     audioElem.play();
   }
 }
@@ -930,23 +1036,23 @@ body {
 }
 
 .count-down-number {
-  font-size: 3em;
+  font-size: 4em;
 }
 
 .word {
-  font-size: 2em;
+  font-size: 2.5em;
   width: 100%;
 }
 
 .ja-word {
-  font-size: 1.2em;
+  font-size: 1.5em;
 }
 
 .transparent {
   opacity: 0.3;
 }
 
-.underline {
+.entering {
   font-size: 1.1em;
 }
 
@@ -967,5 +1073,19 @@ body {
 
 .display-none {
   display: none;
+}
+
+.finish-font {
+  font-size: 3em;
+  font-weight: 600;
+}
+
+.font-size-large {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.fontRed {
+  color: #dc143c;
 }
 </style>

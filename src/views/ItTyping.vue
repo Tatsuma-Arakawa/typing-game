@@ -10,9 +10,9 @@
 
       <!-- スタートボタン -->
       <v-btn
-      class="startButton mt-10"
-      @click="gameStart"
-      color="blue-grey"
+        class="startButton mt-10"
+        @click="gameStart"
+        color="blue-grey"
       >
         <p>クリックでスタート</p>
       </v-btn>
@@ -32,9 +32,9 @@
       <!-- ランキングページ遷移ボタン -->
       <div class="mt-5">
         <v-btn
-        href="/result"
-        color="blue-grey"
-        small
+          href="/result"
+          color="blue-grey"
+          small
         >
           <p class="button">ランキング</p>
         </v-btn>
@@ -142,11 +142,12 @@
         <div>ミスタイプ数: {{ typeMissCount }}問</div>
       </div>
 
+      <!-- リプレイボタン -->
       <div class="mt-5">
         <v-btn
-        @click="gameStart()"
-        color="blue-grey"
-        small
+          @click="reload()"
+          color="blue-grey"
+          small
         >
           <p class="button">もう一度プレイする</p>
         </v-btn>
@@ -155,9 +156,9 @@
       <!-- ランキングページ遷移ボタン -->
       <div class="mt-5">
         <v-btn
-        href="/result"
-        color="blue-grey"
-        small
+          href="/result"
+          color="blue-grey"
+          small
         >
           <p class="button">ランキング</p>
         </v-btn>
@@ -643,7 +644,6 @@ export default class ItTyping extends Vue {
     }
   }
 
-
   /** ゲームスタートまでのカウントダウン */
   countRead(): void {
     if (!this.readFlag) {
@@ -792,6 +792,11 @@ export default class ItTyping extends Vue {
     }
   }
 
+  /** リロード */
+  private reload(): void {
+    location.reload();
+  }
+
   /** ミス音 */
   private missSound(): void {
     const audioElem = new Audio();
@@ -917,6 +922,6 @@ body {
 }
 
 .fontRed {
-  color: red;
+  color: #dc143c;
 }
 </style>
