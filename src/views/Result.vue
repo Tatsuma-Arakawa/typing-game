@@ -16,7 +16,7 @@
         color="blue-grey"
         small
       >
-        <p class="button">Play ITモード</p>
+        <p class="button">ITモード</p>
       </v-btn>
       <v-btn
         class="mx-2"
@@ -24,7 +24,7 @@
         color="blue-grey"
         small
       >
-        <p class="button">Play 世界の偉人モード</p>
+        <p class="button">世界の偉人モード</p>
       </v-btn>
       <v-btn
         class="mx-2"
@@ -32,7 +32,7 @@
         color="blue-grey"
         small
       >
-        <p class="button">Play 筋肉モード</p>
+        <p class="button">筋肉モード</p>
       </v-btn>
     </div>
 

@@ -11,3 +11,9 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+
+export type VForm = Vue & {
+  validate: () => boolean;
+  resetValidation: () => boolean;
+  reset: () => void;
+};
