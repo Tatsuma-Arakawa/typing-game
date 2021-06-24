@@ -1,5 +1,6 @@
 # タイピングゲーム
 https://typinggame-53161.web.app
+
 ![](public/ゲーム中画面.png)
 
 ## このアプリを開発した理由
