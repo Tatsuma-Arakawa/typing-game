@@ -764,7 +764,12 @@ export default class ItTyping extends Vue {
         querySnapshot.forEach(doc => {
           this.results.push({
             id: doc.id,
-            data: doc.data() as any
+            data: doc.data() as {
+              name: string;
+              score: number;
+              mode: string;
+              rank: string;
+            }
           })
         })
       })
